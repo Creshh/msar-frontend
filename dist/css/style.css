@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+
+
+
+/* Image */
+.image {
+  display: block;
+  margin: 0;
+}
+
+.image img {
+  max-width: 100%;
+  height: auto; 
+  vertical-align: top;
+}
+
+/* .image figcaption {
+  display: block;
+  margin: .2em 0 0;
+  font-weight: normal;
+} */
