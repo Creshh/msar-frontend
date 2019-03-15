@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import GridComponent from './stackgrid';
 import SearchComponent from './search';
 
-const title = 'My Minimal React Webpack Babel Setup';
+const title = 'Meta Search Application';
 
 
 function App() {
