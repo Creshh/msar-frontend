@@ -26,10 +26,10 @@ export default class SearchComponent extends React.Component {
         fetch('/api/suggest?prefix=' + value)
             .then(response => {
                 return response.json()})
-            .then(json => {
-                console.log('called api')
-                console.log('suggestions: \n' + JSON.stringify(json, null, 2))
-                return json})
+            // .then(json => {
+            //     console.log('called api')
+            //     console.log('suggestions: \n' + JSON.stringify(json, null, 2))
+            //     return json})
             .then(json => this.setState({
                 isLoading: false,
                 results: json,
@@ -37,7 +37,7 @@ export default class SearchComponent extends React.Component {
       }
     
       render() {
-        const { isLoading, value, results } = this.state
+        let { isLoading, value, results } = this.state
     
         return (
               <Search
@@ -50,5 +50,5 @@ export default class SearchComponent extends React.Component {
                 {...this.props}
               />
         )
-      }
     }
+}
