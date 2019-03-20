@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GridComponent from './stackgrid';
-import SearchComponent from './search';
+import GalleryComponent from './Gallery';
 
 const title = 'Meta Search Application';
 
@@ -10,8 +9,7 @@ function App() {
     return (
         <div>
             <div>{title}</div>
-            <SearchComponent />
-            <GridComponent />
+            <GalleryComponent />
         </div>
     );
   }
