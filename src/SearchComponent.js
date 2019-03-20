@@ -3,6 +3,13 @@ import _ from 'lodash'
 import { Search } from 'semantic-ui-react'
 
 export default class SearchComponent extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.handleSearchChange = this.handleSearchChange.bind(this)
+        this.handleResultSelected = this.handleResultSelected.bind(this)
+    }
+
     componentWillMount() {
         this.resetComponent()
       }
@@ -11,8 +18,10 @@ export default class SearchComponent extends React.Component {
         this.setState({ isLoading: false, results: [], value: '' })
     }
 
-    handleResultSelect(e, { result }){
+    handleResultSelected(e, { result }){
+        console.log('handleResultSelected ' + result.title)
         this.setState({ value: result.title })
+        this.props.onResultSelected(result.title)
     }
     
     handleSearchChange(e, { value }){
@@ -43,11 +52,10 @@ export default class SearchComponent extends React.Component {
               <Search
                 category
                 loading={isLoading}
-                onResultSelect={this.handleResultSelect.bind(this)}
-                onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true }).bind(this)}
+                onResultSelect={this.handleResultSelected}
+                onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
                 results={results}
                 value={value}
-                {...this.props}
               />
         )
     }
