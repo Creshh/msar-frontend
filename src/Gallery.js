@@ -9,6 +9,8 @@ const images_final = [
     { src: 'http://localhost:8090/assets/get/IMG_8600.jpg', label: 'IMG_8600.jpg' }
   ];
 
+  const API = 'http://localhost:8080/api/search/query?query='
+
 export default class GalleryComponent extends React.Component {
 
     constructor(props) {
@@ -23,7 +25,11 @@ export default class GalleryComponent extends React.Component {
 
     onResultSelected(searchValue){
         console.log('onResultSelected ' + searchValue)
-        this.setState({searchValue, images: images_final})
+        // this.setState({searchValue, images: images_final})
+
+        fetch(API + searchValue)
+            .then(response => response.json())
+            .then(data => this.setState({searchValue, images: data}))
     }
 
     render() {
