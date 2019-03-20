@@ -3,10 +3,20 @@ import StackGrid, { transitions, easings } from 'react-stack-grid';
 
 const transition = transitions.scaleDown;
 
+const API = 'http://localhost:8090/assets/get/'
+
 export default class GridComponent extends React.Component {
 
     constructor(props) {
         super(props)
+        this.handlePath = this.handlePath.bind(this)
+    }
+
+    handlePath(path) {
+        console.log(path)
+        const arr = path.split('\\')
+        console.log(arr)
+        return API + arr[arr.length -1]
     }
 
     render() {
@@ -29,11 +39,11 @@ export default class GridComponent extends React.Component {
                 leaved={transition.leaved}>
                     {image_array.map(obj => (
                         <figure
-                            key={obj.src}
+                            key={obj.reference}
                             className="image"
                         >
-                            <img src={obj.src} alt={obj.label} />
-                            <figcaption>{obj.label}</figcaption>
+                            <img src={this.handlePath(obj.reference)} alt={obj.type} />
+                            <figcaption>{obj.type}</figcaption>
                         </figure>
                         ))}
             </StackGrid>
