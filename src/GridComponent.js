@@ -12,11 +12,12 @@ export default class GridComponent extends React.Component {
         this.handlePath = this.handlePath.bind(this)
     }
 
-    handlePath(path) {
-        console.log(path)
-        const arr = path.split('\\')
-        console.log(arr)
-        return API + arr[arr.length -1]
+    handlePath(reference) {
+        console.log(reference)
+        // const arr = reference.split('\\')
+        // console.log(arr)
+        // return API + arr[arr.length -1]
+        return API + reference + '?thumb=true'
     }
 
     render() {
