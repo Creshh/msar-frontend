@@ -8,7 +8,7 @@ const title = 'Meta Search Application';
 
 function App() {
     return (
-        <div>
+        <div className="App">
             <div>{title}</div>
             <GalleryComponent />
 
