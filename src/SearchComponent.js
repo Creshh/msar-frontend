@@ -2,10 +2,19 @@ import React from 'react';
 import _ from 'lodash'
 import { Search } from 'semantic-ui-react'
 
+const API = '/doc/suggest?prefix='
+
 export default class SearchComponent extends React.Component {
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            isLoading: false,
+            results: [],
+            value: ''
+        }
+
         this.handleSearchChange = this.handleSearchChange.bind(this)
         this.handleResultSelected = this.handleResultSelected.bind(this)
     }
@@ -32,7 +41,7 @@ export default class SearchComponent extends React.Component {
             return
         }
 
-        fetch('/api/suggest?prefix=' + value)
+        fetch(API + value)
             .then(response => {
                 return response.json()})
             // .then(json => {

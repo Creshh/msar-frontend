@@ -1,5 +1,5 @@
 module.exports = {
-    entry: './src/index.js',
+    entry: ['babel-polyfill', './src/index.js'],
     module: {
       rules: [
         {
@@ -20,7 +20,8 @@ module.exports = {
     devServer: {
       contentBase: './dist',
       proxy: {
-        '/api': 'http://localhost:8090'
+        '/doc': 'http://localhost:8090',
+        '/assets': 'http://localhost:8090'
       }
     }
   };
