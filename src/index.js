@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import GalleryComponent from './Gallery';
+import UploadComponent from './UploadComponent';
 
 const title = 'Meta Search Application';
 
@@ -10,6 +11,8 @@ function App() {
         <div>
             <div>{title}</div>
             <GalleryComponent />
+
+            <UploadComponent />
         </div>
     );
   }
