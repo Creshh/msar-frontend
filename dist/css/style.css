@@ -1,117 +1,48 @@
 @charset "utf-8";
 
-.Appold {
+#main, #index, #page {
+  height: 100%
+}
+
+#page {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-height: 100vh;
-  font-size: calc(10px + 2vmin);
+  flex-direction: column
 }
 
-.App {
-  
-  background-color: rgb(206, 213, 223);
-  min-height: 100vh;
+.mainMenu {
+  margin-left: 1em !important;
+  margin-right: 1em !important;
+  border-width: 0px !important;
 }
 
-.Card {
-  background-color: white;
-  padding: 32px;
-  width: 50%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.11), 0 5px 15px 0 rgba(0, 0, 0, 0.08);
-  box-sizing: border-box;
+.segmentLanding {
+  min-height: 550px;
+  flex-grow: 1;
+  background-image: url('/res/main_bg.jpg') !important;
+  background-size: cover !important; 
 }
 
-.Upload {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: flex-start;
-  text-align: left;
-  overflow: hidden;
+.containerSearch {
+  padding-top:  2.5em;
 }
 
-.Content {
-  display: flex;
-  flex-direction: row;
-  padding-top: 16px;
-  box-sizing: border-box;
-  width: 100%;
+#landingH1 {
+  font-size: 4em;
+  font-weight: normal;
+  margin-bottom: 0;
 }
 
-.Files {
-  margin-left: 32px;
-  align-items: flex-start;
-  justify-items: flex-start;
-  flex: 1;
-  overflow-y: auto;
+#landingH2 {
+  font-size: 1.7em;
+  font-weight: lighter;
+  margin-top: 2.5em
 }
 
-.Actions {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  align-items: flex-end;
-  flex-direction: column;
-  margin-top: 32px;
+.segmentFooter {
+  padding: 5em 0em;
 }
 
-.Title {
-  margin-bottom: 32px;
-  color: #555;
-}
 
-.Filename {
-  margin-bottom: 8px;
-  font-size: 16px;
-  color: #555;
-}
-
-.Row {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 50px;
-  padding: 8px;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.ProgressWrapper {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-}
-
-.Dropzone {
-  height: 200px;
-  width: 200px;
-  background-color: #fff;
-  border: 2px dashed rgb(187, 186, 186);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  font-size: 16px;
-}
-
-.Highlight {
-  background-color: rgb(188, 185, 236);
-}
-
-.Icon {
-  opacity: 0.3;
-  height: 64px;
-  width: 64px;
-}
 
 /* Image */
 .image {
@@ -124,9 +55,3 @@
   height: auto; 
   vertical-align: top;
 }
-
-/* .image figcaption {
-  display: block;
-  margin: .2em 0 0;
-  font-weight: normal;
-} */
