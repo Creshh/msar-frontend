@@ -14,6 +14,8 @@ import {
     Segment,
     Sidebar,
     Visibility,
+    Rail,
+    Sticky,
   } from 'semantic-ui-react'
 
 export default class Mockup extends React.Component {
@@ -34,9 +36,8 @@ export default class Mockup extends React.Component {
 
         return (
             <div id='page'>
-                <Segment vertical inverted className='segmentLanding'>
-                    
-                    <Menu className='mainMenu' inverted secondary pointing size='large'>
+                <Segment vertical className='segmentSearch'>
+                    <Menu className='mainMenu' secondary pointing size='large'>
                             <Menu.Item header className='MenuText'>
                                 Metadata Search and Retrieval
                             </Menu.Item>
@@ -55,23 +56,43 @@ export default class Mockup extends React.Component {
                             </Menu.Item>
                     </Menu>
                     <Divider/>
-                    <Container text textAlign='center' className='containerLandingSearch'>
-                            <Header id='landingH1'
-                                as='h1'
-                                content='Image Retrieval'
-                                inverted
+
+                    <Search input={{ fluid: true }} className='secondarySearch'
+                        size='small'
+                        category
+                    />
+
+                    <div className='grid'>
+                        <div className='grid-filters'>
+                        bla <br/>
+                        bla <br/>
+                        bla <br/>
+                        bla <br/>
+                        bla <br/>
+                        </div>
+                        <div className='grid-images'>
+                        blubb
+                        </div>
+                    </div> 
+                    
+                {/* <div className='grid'>
+                    <Menu attached='top'>
+
+                        <Menu.Menu >
+                            <Search input={{ fluid: true }} className='secondarySearch'
+                            size='small'
+                            category
                             />
-                            <Header id='landingH2'
-                                as='h2'
-                                content='Search for Exif Tags, Objects, Persons, Locations, ...'
-                                inverted
-                            />
-                            <Search fluid input={{ fluid: true }} className='primarySearch'
-                                size='big'
-                                category
-                            />
-                    </Container>
+                        </Menu.Menu>
+                        </Menu>
+
+                        <Segment attached='bottom'>
+                            blabla
+                        </Segment>
+                        </div> */}
                 </Segment>
+
+
                 <Segment inverted vertical className='segmentFooter'>
                     <Container>
                         <Grid divided inverted stackable columns='2'>
