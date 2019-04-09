@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GalleryComponent from './Gallery';
-import UploadComponent from './UploadComponent';
+import GalleryComponent from './components/Gallery';
+import UploadComponent from './components/UploadComponent';
+import Mockup from './Mockup_Landing';
 
 const title = 'Meta Search Application';
 
@@ -23,6 +24,8 @@ function App() {
   document.head.appendChild(styleLink)
 
 ReactDOM.render(
-    <App />,
-    document.getElementById('app')
+    <div id='index'>
+        <Mockup/>
+    </div>,
+    document.getElementById('main')
 );
