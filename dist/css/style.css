@@ -22,7 +22,7 @@
   background-size: cover !important; 
 }
 
-.containerSearch {
+.containerLandingSearch {
   padding-top:  2.5em;
 }
 
@@ -36,6 +36,29 @@
   font-size: 1.7em;
   font-weight: lighter;
   margin-top: 2.5em
+}
+
+.segmentSearch {
+  min-height: 550px;
+  flex-grow: 1;
+}
+
+.secondarySearch {
+  margin: 1em 1em 1em 1em;
+}
+
+.grid {
+  margin: 1em 1em 1em 1em;
+  display: flex;
+  flex-direction: row
+}
+
+.grid-filters {
+  width: 200px;
+}
+
+.grid-images {
+  flex-grow: 1;
 }
 
 .segmentFooter {
