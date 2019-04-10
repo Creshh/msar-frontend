@@ -21,6 +21,7 @@ import {
     Input,
     Label,
   } from 'semantic-ui-react'
+  import GridComponent from './old_components/GridComponent'
 
 export default class Mockup extends React.Component {
 
@@ -49,6 +50,30 @@ export default class Mockup extends React.Component {
 
     render() {
 
+        const images = [
+            {reference: '1'},
+            {reference: '2'},
+            {reference: '3'},
+            {reference: '4'},
+            {reference: '5'},
+            {reference: '6'},
+            {reference: '7'},
+            {reference: '8'},
+            {reference: '9'},
+            {reference: '10'},
+            {reference: '11'},
+            {reference: '12'},
+            {reference: '13'},
+            {reference: '14'},
+            {reference: '15'},
+            {reference: '16'},
+            {reference: '17'},
+            {reference: '18'},
+            {reference: '19'},
+            {reference: '20'},
+            {reference: '21'},
+        ]
+
         const { activeItem, activeIndex } = this.state
 
         // const panels = _.times(3, i => ({
@@ -58,10 +83,19 @@ export default class Mockup extends React.Component {
         //   }))
         const panels = [3]
 
+        // panels[0] = {
+        //     key: 'tags',
+        //     title: 'Manual Tags',
+        //     content: {
+        //         content: <p>bla</p>
+        //     }
+        // }
+
         panels[0] = {
             key: 'tags',
             title: 'Manual Tags',
-            content:
+            content: {
+                content: 
                 <div className='filter'>
                     <Input fluid label='AddTag'/>
                     <Label.Group color='olive'>
@@ -74,24 +108,28 @@ export default class Mockup extends React.Component {
                             <Icon name='close' />
                         </Label>
                 </Label.Group>
-                </div>,
+                </div>
+            }
         }
 
         panels[1] = {
             key: 'exif',
             title: 'EXIF',
-            content:
+            content: {
+                content:
                 <div className='filter'>
                     <Input fluid label='Width' />
                     <Input fluid label='Height' />
                     <Input fluid label='Persons' type='range' min={0} max={10}  /> 
-                </div>,
+                </div>
+            }
         }
 
         panels[2] = {
             key: 'location',
             title: 'Location',
-            content:
+            content: {
+                content:
                 <div className='filter'>
                     <Input fluid label='Country'  />
                     <Input fluid label='City' />
@@ -100,7 +138,8 @@ export default class Mockup extends React.Component {
                     <Input fluid label='Latitude' />
                     <Input fluid label='Longitude' />
                     <Input fluid label='Radius' />
-                </div>,
+                </div>
+            }
         }
 
         return (
@@ -131,28 +170,13 @@ export default class Mockup extends React.Component {
                         category
                     />
 
-                    <Sidebar.Pushable as={Segment}>
+                    {/* <Sidebar.Pushable as={Segment}>
                             <Sidebar
-                                as={Accordion}
                                 animation='push'
-                                icon='labeled'
-                                exclusive={false}
                                 onHide={this.handleSidebarHide}
                                 visible={true}
                                 // width=''
-                                fluid
                             >
-                                {/* <Accordion.Title active={true} index={0} onClick={this.handleSidebarClick}>
-                                <Icon name='dropdown' />
-                                What is a dog?
-                                </Accordion.Title>
-                                <Accordion.Content active={true}>
-                                <p>
-                                    A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can
-                                    be found as a welcome guest in many households across the world.
-                                </p>
-                                </Accordion.Content> */}
-                                
                                 
                                 <Accordion defaultActiveIndex={Array.from(Array(panels.length).keys())} panels={panels} exclusive={false} fluid />
                             </Sidebar>
@@ -160,11 +184,23 @@ export default class Mockup extends React.Component {
                             <Sidebar.Pusher>
                                 <Segment basic>
                                 <Header as='h3'>Application Content</Header>
-                                    blablubb
+                                <GridComponent
+                                    images={images}
+                                />
                                 </Segment>
                             </Sidebar.Pusher>
-                        </Sidebar.Pushable>
-                            
+                        </Sidebar.Pushable> */}
+                    
+                    <div className='grid'>
+                        <div className= 'grid-filters'>
+                            <Accordion defaultActiveIndex={Array.from(Array(panels.length).keys())} panels={panels} exclusive={false} fluid />
+                        </div>
+                        <Segment basic className='grid-images'>
+                            <GridComponent
+                                images={images}
+                            />
+                        </Segment>
+                    </div>
                 </Segment>
 
 
