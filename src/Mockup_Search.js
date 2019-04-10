@@ -36,60 +36,14 @@ export default class Mockup extends React.Component {
         this.setState({ activeItem: name })
     }
 
-    // handleSidebarClick(e, titleProps) {
-    //     console.log('sidebar click');
-        
-    //     const { index } = titleProps
-    //     console.log(index)
-    //     const { activeItem, activeIndex } = this.state
-    //     const filtered = activeIndex.filter((value) => {return value == index})
-    //     // const newIndex = activeIndex === index ? -1 : index
-    //     console.log(filtered)
-    //     this.setState({ activeIndex: filtered })
-    //   }
-
     render() {
-
-        const images = [
-            {reference: '1'},
-            {reference: '2'},
-            {reference: '3'},
-            {reference: '4'},
-            {reference: '5'},
-            {reference: '6'},
-            {reference: '7'},
-            {reference: '8'},
-            {reference: '9'},
-            {reference: '10'},
-            {reference: '11'},
-            {reference: '12'},
-            {reference: '13'},
-            {reference: '14'},
-            {reference: '15'},
-            {reference: '16'},
-            {reference: '17'},
-            {reference: '18'},
-            {reference: '19'},
-            {reference: '20'},
-            {reference: '21'},
-        ]
+        const images = []
+        for(var i = 1; i<=50; i++){
+            images.push({reference: i})
+        }
 
         const { activeItem, activeIndex } = this.state
-
-        // const panels = _.times(3, i => ({
-        //     key: `panel-${i}`,
-        //     title: `title-${i}`,
-        //     content: `content-${i}`,
-        //   }))
         const panels = [3]
-
-        // panels[0] = {
-        //     key: 'tags',
-        //     title: 'Manual Tags',
-        //     content: {
-        //         content: <p>bla</p>
-        //     }
-        // }
 
         panels[0] = {
             key: 'tags',
@@ -194,7 +148,7 @@ export default class Mockup extends React.Component {
                     <div className='grid'>
                         <div className= 'grid-filters'>
                             <Accordion defaultActiveIndex={Array.from(Array(panels.length).keys())} panels={panels} exclusive={false} fluid />
-                        </div>
+                        </div> 
                         <Segment basic className='grid-images'>
                             <GridComponent
                                 images={images}

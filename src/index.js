@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GalleryComponent from './components/Gallery';
-import UploadComponent from './components/UploadComponent';
 import Mockup from './Mockup_Search';
 
 const title = 'Meta Search Application';
