@@ -38,8 +38,8 @@ export default class Mockup extends React.Component {
 
     render() {
         const images = []
-        for(var i = 1; i<=50; i++){
-            images.push({reference: i})
+        for(var i = 1; i<=15; i++){
+            images.push({reference: i, type: 'type'})
         }
 
         const { activeItem, activeIndex } = this.state

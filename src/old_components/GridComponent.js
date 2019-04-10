@@ -1,6 +1,6 @@
 import React from 'react';
 import StackGrid, { transitions, easings } from 'react-stack-grid';
-
+import {Label, Image, Button} from 'semantic-ui-react'
 const transition = transitions.scaleDown;
 
 const ASSETS_GET = '/assets/get/'
@@ -21,7 +21,6 @@ export default class GridComponent extends React.Component {
     }
 
     render() {
-
         const image_array = this.props.images
         // ToDo: Show additional Information on Hover on transparent plane
         return (
@@ -39,13 +38,14 @@ export default class GridComponent extends React.Component {
                 entered={transition.entered}
                 leaved={transition.leaved}>
                     {image_array.map(obj => (
-                        <figure
-                            key={obj.reference}
-                            className="image"
-                        >
-                            <img src={this.handlePath(obj.reference)} alt={obj.type} />
-                            <figcaption>{obj.type}</figcaption>
-                        </figure>
+                        <div key={obj.reference} className='imageContainer'>
+                            {/* <Label className='imageLabel' attached='bottom'>{obj.type}</Label> */}
+                            <Image className='gridImage' src={this.handlePath(obj.reference)} alt={obj.type}/>
+                            <div className='imageLabel'>
+                                
+                                <Button color='olive'>Add MetaData</Button>
+                            </div>
+                        </div>
                         ))}
             </StackGrid>
         );
