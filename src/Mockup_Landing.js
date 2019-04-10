@@ -54,7 +54,7 @@ export default class Mockup extends React.Component {
                                     Upload
                             </Menu.Item>
                     </Menu>
-                    <Divider/>
+                    {/* <Divider/> */}
                     <Container text textAlign='center' className='containerLandingSearch'>
                             <Header id='landingH1'
                                 as='h1'
@@ -70,6 +70,12 @@ export default class Mockup extends React.Component {
                                 size='big'
                                 category
                             />
+                            {// Last Search
+                                // <Label as='a'>
+                                // Happy
+                                // <Label.Detail>22</Label.Detail>
+                                // </Label>
+                            }
                     </Container>
                 </Segment>
                 <Segment inverted vertical className='segmentFooter'>
