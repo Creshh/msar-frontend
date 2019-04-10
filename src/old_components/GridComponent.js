@@ -23,7 +23,7 @@ export default class GridComponent extends React.Component {
     render() {
 
         const image_array = this.props.images
-
+        // ToDo: Show additional Information on Hover on transparent plane
         return (
             <StackGrid
                 monitorImagesLoaded

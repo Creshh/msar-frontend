@@ -39,8 +39,6 @@
 }
 
 .segmentSearch {
-  /* min-height: 550px; */
-  max-height: 1000px;
   flex-basis: 550px;
   flex-grow: 1;
 }
@@ -50,31 +48,25 @@
 }
 
 .grid {
-  min-height: 0;
-  margin: 1em 1em 1em 1em;
-  height: 100%; 
   display: flex;
-  flex-direction: row
+  flex-direction: row;
 }
 
 .grid-filters {
   flex-basis: 200px;
   flex-shrink: 0;
+  /* overflow-y: scroll; */
 }
 
 .grid-images {
   flex-grow: 1;
-  overflow-y: scroll;
-  height: 100%;
-  /* height: 500px; */
+  
 }
 
 .segmentFooter {
   padding: 5em 0em;
   flex-basis: 150px;
   flex-shrink: 0;
-  /* flex-grow: 1; */
-  /* max-height: 150px; */
 }
 
 .filter {
