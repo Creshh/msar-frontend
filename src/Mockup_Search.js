@@ -22,18 +22,26 @@ import {
     Label,
   } from 'semantic-ui-react'
   import GridComponent from './old_components/GridComponent'
+  import {DatesRangeInput, DateInput } from 'semantic-ui-calendar-react'
 
 export default class Mockup extends React.Component {
 
     constructor(props){
         super(props)
-        this.state = { activeItem: 'search', activeIndex: []}
+        this.state = { activeItem: 'search', activeIndex: [], datesRange: ''}
         this.handleItemClick = this.handleItemClick.bind(this)
         // this.handleSidebarClick = this.handleSidebarClick.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     handleItemClick(e, { name }) {
         this.setState({ activeItem: name })
+    }
+
+    handleChange(event, {name, value}) {
+        if (this.state.hasOwnProperty(name)) {
+          this.setState({ [name]: value });
+        }
     }
 
     render() {
@@ -43,7 +51,7 @@ export default class Mockup extends React.Component {
         }
 
         const { activeItem, activeIndex } = this.state
-        const panels = [3]
+        const panels = [4]
 
         panels[0] = {
             key: 'tags',
@@ -74,7 +82,15 @@ export default class Mockup extends React.Component {
                 <div className='filter'>
                     <Input fluid label='Width' />
                     <Input fluid label='Height' />
-                    <Input fluid label='Persons' type='range' min={0} max={10}  /> 
+                    <DatesRangeInput
+                        icon= {false}
+                        name='datesRange'
+                        placeholder='From - To'
+                        iconPosition="left"
+                        value={this.state.datesRange}
+                        onChange={this.handleChange}
+                    />
+
                 </div>
             }
         }
@@ -92,6 +108,17 @@ export default class Mockup extends React.Component {
                     <Input fluid label='Latitude' />
                     <Input fluid label='Longitude' />
                     <Input fluid label='Radius' />
+                </div>
+            }
+        }
+
+        panels[3] = {
+            key: 'persons',
+            title: 'Persons',
+            content: {
+                content:
+                <div className='filter'>
+                    <Input fluid label='Persons' type='range' min={0} max={10}  />
                 </div>
             }
         }
@@ -119,7 +146,11 @@ export default class Mockup extends React.Component {
                     </Menu>
                     {/* <Divider/> */}
 
-                    <Search input={{ fluid: true }} className='secondarySearch'
+                    <Search 
+                        input={{ 
+                            fluid: true 
+                        }}
+                        className='secondarySearch'
                         size='small'
                         category
                     />
