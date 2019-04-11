@@ -1,48 +1,15 @@
 import React from 'react'
 import _ from 'lodash'
 import {
-    Button,
-    Container,
-    Divider,
-    Grid,
-    Header,
-    Icon,
-    Image,
-    List,
-    Menu,
-    Responsive,
     Search,
     Segment,
-    Sidebar,
-    Visibility,
-    Rail,
-    Sticky,
-    Accordion,
-    Input,
-    Label,
   } from 'semantic-ui-react'
-  import GridComponent from './old_components/GridComponent'
-  import {DatesRangeInput, DateInput } from 'semantic-ui-calendar-react'
+import ImageGridComponent from './components/ImageGridComponent'
+import FooterComponent from './components/FooterComponent'
+import MenuComponent from './components/MenuComponent'
+import FilterComponent from './components/FilterComponent';
 
 export default class Mockup extends React.Component {
-
-    constructor(props){
-        super(props)
-        this.state = { activeItem: 'search', activeIndex: [], datesRange: ''}
-        this.handleItemClick = this.handleItemClick.bind(this)
-        // this.handleSidebarClick = this.handleSidebarClick.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-    }
-
-    handleItemClick(e, { name }) {
-        this.setState({ activeItem: name })
-    }
-
-    handleChange(event, {name, value}) {
-        if (this.state.hasOwnProperty(name)) {
-          this.setState({ [name]: value });
-        }
-    }
 
     render() {
         const images = []
@@ -50,100 +17,10 @@ export default class Mockup extends React.Component {
             images.push({reference: i, type: 'type'})
         }
 
-        const { activeItem, activeIndex } = this.state
-        const panels = [4]
-
-        panels[0] = {
-            key: 'tags',
-            title: 'Manual Tags',
-            content: {
-                content: 
-                <div className='filter'>
-                    <Input fluid label='AddTag'/>
-                    <Label.Group color='olive'>
-                        <Label as='a'>
-                            Fun
-                            <Icon name='close' />
-                        </Label>
-                        <Label as='a'>
-                            Fun
-                            <Icon name='close' />
-                        </Label>
-                </Label.Group>
-                </div>
-            }
-        }
-
-        panels[1] = {
-            key: 'exif',
-            title: 'EXIF',
-            content: {
-                content:
-                <div className='filter'>
-                    <Input fluid label='Width' />
-                    <Input fluid label='Height' />
-                    <DatesRangeInput
-                        icon= {false}
-                        name='datesRange'
-                        placeholder='From - To'
-                        iconPosition="left"
-                        value={this.state.datesRange}
-                        onChange={this.handleChange}
-                    />
-
-                </div>
-            }
-        }
-
-        panels[2] = {
-            key: 'location',
-            title: 'Location',
-            content: {
-                content:
-                <div className='filter'>
-                    <Input fluid label='Country'  />
-                    <Input fluid label='City' />
-                    <Input fluid label='Street' />
-                    <Divider horizontal>OR</Divider>
-                    <Input fluid label='Latitude' />
-                    <Input fluid label='Longitude' />
-                    <Input fluid label='Radius' />
-                </div>
-            }
-        }
-
-        panels[3] = {
-            key: 'persons',
-            title: 'Persons',
-            content: {
-                content:
-                <div className='filter'>
-                    <Input fluid label='Persons' type='range' min={0} max={10}  />
-                </div>
-            }
-        }
-
         return (
             <div id='page'>
                 <Segment vertical className='segmentSearch'>
-                    <Menu className='mainMenu' secondary pointing size='large'>
-                            <Menu.Item header className='MenuText'>
-                                Metadata Search and Retrieval
-                            </Menu.Item>
-                            <Menu.Item
-                                position='right' 
-                                name='search'
-                                active={activeItem === 'search'}
-                                onClick={this.handleItemClick}>
-                                    Search
-                            </Menu.Item>
-                            <Menu.Item
-                                name='upload'
-                                active={activeItem === 'upload'}
-                                onClick={this.handleItemClick}>
-                                    Upload
-                            </Menu.Item>
-                    </Menu>
+                    <MenuComponent />
                     {/* <Divider/> */}
 
                     <Search 
@@ -155,66 +32,19 @@ export default class Mockup extends React.Component {
                         category
                     />
 
-                    {/* <Sidebar.Pushable as={Segment}>
-                            <Sidebar
-                                animation='push'
-                                onHide={this.handleSidebarHide}
-                                visible={true}
-                                // width=''
-                            >
-                                
-                                <Accordion defaultActiveIndex={Array.from(Array(panels.length).keys())} panels={panels} exclusive={false} fluid />
-                            </Sidebar>
-
-                            <Sidebar.Pusher>
-                                <Segment basic>
-                                <Header as='h3'>Application Content</Header>
-                                <GridComponent
-                                    images={images}
-                                />
-                                </Segment>
-                            </Sidebar.Pusher>
-                        </Sidebar.Pushable> */}
-                    
                     <div className='grid'>
                         <div className= 'grid-filters'>
-                            <Accordion defaultActiveIndex={Array.from(Array(panels.length).keys())} panels={panels} exclusive={false} fluid />
+                            <FilterComponent />
                         </div> 
                         <Segment basic className='grid-images'>
-                            <GridComponent
+                            <ImageGridComponent
                                 images={images}
                             />
                         </Segment>
                     </div>
                 </Segment>
 
-
-                <Segment inverted vertical className='segmentFooter'>
-                    <Container>
-                        <Grid divided inverted stackable columns='2'>
-                        <Grid.Row>
-                            <Grid.Column>
-                            <Header inverted as='h4' content='Content' />
-                            <List link inverted>
-                                <List.Item as='a'>Citation</List.Item>
-                                <List.Item as='a'>Search</List.Item>
-                                <List.Item as='a'>Upload</List.Item>
-                                <List.Item as='a'>Metadata Formats</List.Item>
-                            </List>
-                            </Grid.Column>
-                            <Grid.Column>
-                            <Header inverted as='h4' content='About' />
-                            <List link inverted>
-                                <List.Item>Metadata Search and Retrieval Application</List.Item>
-                                <List.Item as='a'>Professur Media Computing</List.Item>
-                                <List.Item as='a'>Technische Universität Chemnitz</List.Item>
-                                <List.Item>2017</List.Item>
-                            </List>
-                            </Grid.Column>
-                        </Grid.Row>
-                        </Grid>
-                    </Container>
-                </Segment>
+                <FooterComponent />
             </div>
         );
     }
