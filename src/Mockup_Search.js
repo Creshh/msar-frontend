@@ -9,7 +9,7 @@ import FooterComponent from './components/FooterComponent'
 import MenuComponent from './components/MenuComponent'
 import FilterComponent from './components/FilterComponent';
 
-export default class Mockup extends React.Component {
+export default class MockupSearch extends React.Component {
 
     render() {
         const images = []
@@ -20,7 +20,7 @@ export default class Mockup extends React.Component {
         return (
             <div id='page'>
                 <Segment vertical className='segmentSearch'>
-                    <MenuComponent />
+                    <MenuComponent activeItem='search'/>
                     {/* <Divider/> */}
 
                     <Search 
