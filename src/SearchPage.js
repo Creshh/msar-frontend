@@ -9,7 +9,7 @@ import FooterComponent from './components/FooterComponent'
 import MenuComponent from './components/MenuComponent'
 import FilterComponent from './components/FilterComponent';
 
-export default class MockupSearch extends React.Component {
+export default class SearchPage extends React.Component {
 
     render() {
         const images = []

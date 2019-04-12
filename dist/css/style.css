@@ -107,3 +107,9 @@
   height: auto; 
   vertical-align: top;
 }
+
+
+.segmentUpload {
+  flex-basis: 550px;
+  flex-grow: 1;
+}
