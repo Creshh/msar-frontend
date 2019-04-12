@@ -5,7 +5,7 @@ import ReactJson from 'react-json-view'
 
 const transition = transitions.scaleDown;
 
-const ASSETS_GET = '/assets/get/'
+const ASSETS_GET = 'api/assets/get/'
 
 export default class ImageGridComponent extends React.Component {
 
@@ -20,7 +20,7 @@ export default class ImageGridComponent extends React.Component {
 
 
     handlePath(reference, thumb) {
-        console.log(reference)
+        // console.log(reference)
         // const arr = reference.split('\\')
         // console.log(arr)
         // return ASSETS_GET + arr[arr.length -1]

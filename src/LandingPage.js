@@ -18,6 +18,7 @@ import {
 
 import FooterComponent from './components/FooterComponent'
 import MenuComponent from './components/MenuComponent'
+import SearchComponent from './components/SearchComponent'
 
 
 export default class LandingPage extends React.Component {
@@ -40,9 +41,21 @@ export default class LandingPage extends React.Component {
                                 content='Search for Exif Tags, Objects, Persons, Locations, ...'
                                 inverted
                             />
-                            <Search fluid input={{ fluid: true }} className='primarySearch'
-                                size='big'
-                                category
+
+                            <SearchComponent
+                                search={{
+                                    fluid: true,
+                                    className: 'primarySearch',
+                                    category: true,
+                                    input: { fluid: true, size: 'big' }
+                                }}
+                                onResultSelected={(result) => {
+                                    console.log(result)
+                                    this.props.history.push({
+                                        pathname: '/search',
+                                        data: result
+                                    })
+                                }}
                             />
                             {// Last Search
                                 // <Label as='a'>

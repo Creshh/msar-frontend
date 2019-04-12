@@ -31,11 +31,11 @@ export default class FilterComponent extends React.Component {
                     <Input fluid label='AddTag'/>
                     <Label.Group color='olive'>
                         <Label as='a'>
-                            Fun
+                            Foo
                             <Icon name='close' />
                         </Label>
                         <Label as='a'>
-                            Fun
+                            Bar
                             <Icon name='close' />
                         </Label>
                 </Label.Group>
