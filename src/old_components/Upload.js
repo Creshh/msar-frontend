@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Dropzone from './Dropzone'
 import {Button, Progress} from 'semantic-ui-react'
 
-const ASSET_UPLOAD = '/assets/upload'
+const ASSET_UPLOAD = 'api/assets/upload'
 
 export default class Upload extends React.Component {
 

@@ -18,10 +18,13 @@ module.exports = {
       filename: 'bundle.js'
     },
     devServer: {
+      historyApiFallback: true, 
       contentBase: './dist',
       proxy: {
-        '/doc': 'http://localhost:8090',
-        '/assets': 'http://localhost:8090'
-      }
-    }
+        '/api': 'http://localhost:8090',
+        // '/doc': 'http://localhost:8090',
+        // '/assets': 'http://localhost:8090',
+        // '/search': 'http://localhost:8090'
+      } // proxy interferes with refreshing e.g. localhost:8080/search is redirected to 8090; test with spring not running
+    },
   };

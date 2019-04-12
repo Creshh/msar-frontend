@@ -6,6 +6,7 @@ import {
     List,
     Segment,
   } from 'semantic-ui-react'
+import {Link} from "react-router-dom";
 
 export default class FooterComponent extends React.Component {
 
@@ -19,9 +20,9 @@ export default class FooterComponent extends React.Component {
                         <Header inverted as='h4' content='Content' />
                         <List link inverted>
                             <List.Item as='a'>Citation</List.Item>
-                            <List.Item as='a'>Search</List.Item>
-                            <List.Item as='a'>Upload</List.Item>
-                            <List.Item as='a'>Metadata Formats</List.Item>
+                            <List.Item as={Link} to='/search'>Search</List.Item>
+                            <List.Item as={Link} to='/upload'>Upload</List.Item>
+                            <List.Item as={Link} to='/'>Metadata Formats</List.Item>
                         </List>
                         </Grid.Column>
                         <Grid.Column>
