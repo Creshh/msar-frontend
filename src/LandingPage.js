@@ -20,7 +20,7 @@ import FooterComponent from './components/FooterComponent'
 import MenuComponent from './components/MenuComponent'
 
 
-export default class MockupLanding extends React.Component {
+export default class LandingPage extends React.Component {
 
     render() {
         return (

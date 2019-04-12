@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 
-import MockupSearch from './Mockup_Search';
-import MockupLanding from './Mockup_Landing';
+import SearchPage from './SearchPage';
+import LandingPage from './LandingPage';
+import UploadPage from './UploadPage';
 
 const styleLink = document.createElement("link")
 styleLink.rel = "stylesheet"
@@ -13,8 +14,9 @@ document.head.appendChild(styleLink)
 ReactDOM.render(
     <Router>
         <div id='index'>
-            <Route path='/' exact component={MockupLanding} />
-            <Route path='/search' component={MockupSearch} />
+            <Route path='/' exact component={LandingPage} />
+            <Route path='/search' component={SearchPage} />
+            <Route path='/upload' component={UploadPage} />
         </div>
     </Router>,
     document.getElementById('main')
