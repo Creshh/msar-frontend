@@ -15,7 +15,6 @@ export default class SearchPage extends React.Component {
     constructor(props){
         super(props)
         this.onResultSelected = this.onResultSelected.bind(this)
-        console.log('constructor' + this.props.location)
         this.state = {images: []}
         if(this.props.location.data){
             this.onResultSelected(this.props.location.data)
@@ -32,13 +31,11 @@ export default class SearchPage extends React.Component {
 
     render() {
         const images = this.state.images
-        console.log(this.props.location)
         return (
 
             <div id='page'>
                 <Segment vertical className='segmentSearch'>
                     <MenuComponent activeItem='search'/>
-                    {/* <Divider/> */}
 
                     <SearchComponent
                         defaultValue= {this.props.location.data}

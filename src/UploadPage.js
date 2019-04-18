@@ -19,7 +19,6 @@ export default class UploadPage extends React.Component {
             <div id='page'>
                 <Segment vertical className='segmentUpload'>
                     <MenuComponent activeItem='upload'/>
-                    {/* <Divider/> */}
 
                     <Upload />
 
