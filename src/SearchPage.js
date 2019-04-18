@@ -14,7 +14,7 @@ export default class SearchPage extends React.Component {
     constructor(props){
         super(props)
 
-        console.log(this.props.location)
+        console.log('constructor' + this.props.location)
     }
 
     render() {
@@ -29,15 +29,6 @@ export default class SearchPage extends React.Component {
                 <Segment vertical className='segmentSearch'>
                     <MenuComponent activeItem='search'/>
                     {/* <Divider/> */}
-
-                    {/* <Search 
-                        input={{ 
-                            fluid: true 
-                        }}
-                        className='secondarySearch'
-                        size='small'
-                        category
-                    /> */}
 
                     <SearchComponent
                         defaultValue= {this.props.location.data}
