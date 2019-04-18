@@ -9,15 +9,12 @@ export default class SearchComponent extends React.Component {
 
     constructor(props) {
         super(props)
-        const defaultValue = this.props.defaultValue != null ? this.props.defaultValue : ''
-        console.log(props + '_____' + defaultValue)
 
         this.state = {
             isLoading: false,
             results: [],
-            value: defaultValue
+            value: ''
         }
-        console.log(this.state)
         this.handleSearchChange = this.handleSearchChange.bind(this)
         this.handleResultSelected = this.handleResultSelected.bind(this)
     }
@@ -31,7 +28,6 @@ export default class SearchComponent extends React.Component {
     }
 
     handleResultSelected(e, { result }){
-        // console.log('handleResultSelected ' + result.title)
         this.setState({ value: result.title })
         this.props.onResultSelected(result.title)
     }
@@ -58,8 +54,10 @@ export default class SearchComponent extends React.Component {
       }
     
       render() {
-        const { isLoading, value, results } = this.state
-        console.log(value)
+        let { isLoading, value, results } = this.state
+        if (!value){
+            value = this.props.defaultValue
+        }
         return (
               <Search
                 {...this.props.search}
