@@ -1,8 +1,9 @@
 import React from 'react';
 import StackGrid, { transitions, easings } from 'react-stack-grid';
-import {Label, Popup, Image, Button, Grid, Modal, Header, Tab} from 'semantic-ui-react'
+import {Popup, Image, Button, Modal, Tab} from 'semantic-ui-react'
 import ReactJson from 'react-json-view'
 import QueryHandler from '../common/QueryHandler'
+import {theme} from '../common/Constants'
 
 const transition = transitions.scaleDown;
 
@@ -23,93 +24,25 @@ export default class ImageGridComponent extends React.Component {
     }
 
     showMeta(reference){
-        this.setState({openMeta: true, reference: reference})
-        console.log('show ' + reference)
+        const panes = []
+        QueryHandler.getDocuments(reference)
+            .then(documents => {
+                console.log(documents)
+                for(let [key, value] of Object.entries(documents)) {
+                    panes.push({menuItem: key, render: () => <ReactJson src={value} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/>})
+                }
+                this.setState({openMeta: true, reference: reference, panes: panes})
+            })
     }
 
     close(){
         this.setState({openImage: false, openMeta: false, reference: ''})
-        console.log('close')
     }
 
     render() {
         const image_array = this.props.images
-        const {openImage, openMeta, reference} = this.state
-
-        const theme = {
-            base00: "rgba(255,255,255,0)",
-            base01: "black",
-            base02: "black",
-            base03: "black",
-            base04: "black",
-            base05: "black",
-            base06: "black",
-            base07: "black",
-            base08: "black",
-            base09: "black",
-            base0A: "black",
-            base0B: "black",
-            base0C: "black",
-            base0D: "black",
-            base0E: "black",
-            base0F: "black",
-        }
-
-        const jsonDummy1 = {
-            reference: "5",
-            country: "French Southern Territories",
-            number: "07727",
-            city: "North Nolachester",
-            street: "Daniel Inlet",
-            latitude: -7.7790308,
-            source: "faker",
-            type: "location",
-            longitude: -119.75346
-        }
-
-        const jsonDummy2 = {
-            orientation: "landscape",
-            focallength: "110",
-            xdim: 5760,
-            source: "exif",
-            type: "exif",
-            manufacturer: "Canon",
-            reference: "15",
-            exposuretime: "1/3200",
-            meteringmode: "Multi-segment",
-            datetime: "2018:06:27 19:17:28",
-            ydim: 3240,
-            isospeed: "500",
-            model: "Canon EOS 5D Mark III",
-            fnumber: "2.8",
-            compression: "0",
-            datetimeoriginal: "2018:06:27 16:21:40",
-            flash: "Flash did not fire, auto"
-        }
-
-        const jsonDummy3 = {
-            reference: "12",
-            objects_coordinates: [
-                    [
-                        1773,
-                        863,
-                        3582,
-                        1383
-                    ]
-                ],
-            objects: [
-            "table"
-            ],
-            source: "faker",
-            type: "objects"
-        }
-
-        const panes = [
-            { menuItem: 'location', render: () => <ReactJson src={jsonDummy1} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/> },
-            { menuItem: 'exif', render: () => <ReactJson src={jsonDummy2} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/> },
-            { menuItem: 'objects', render: () => <ReactJson src={jsonDummy3} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/> },
-          ]
-
+        const {openImage, openMeta, reference, panes} = this.state
+        
         return (
         <div>
             <Modal dimmer open={openImage} onClose={this.close} basic size='fullscreen'>

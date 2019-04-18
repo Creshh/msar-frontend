@@ -8,7 +8,6 @@ export default class SearchComponent extends React.Component {
 
     constructor(props) {
         super(props)
-        console.log('constructor of searchbar - defaultValue: ' + this.props.defaultValue)
         this.state = {
             isLoading: false,
             results: [],
@@ -45,7 +44,6 @@ export default class SearchComponent extends React.Component {
     
       render() {
         let { isLoading, value, results } = this.state
-        console.log('render of searchbar - value: ' + value)
         return (
               <Search
                 {...this.props.search}
