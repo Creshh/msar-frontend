@@ -8,20 +8,30 @@ import FooterComponent from './components/FooterComponent'
 import MenuComponent from './components/MenuComponent'
 import FilterComponent from './components/FilterComponent';
 import SearchComponent from './components/SearchComponent'
+import QueryHandler from './common/QueryHandler'
 
 export default class SearchPage extends React.Component {
 
     constructor(props){
         super(props)
-
+        this.onResultSelected = this.onResultSelected.bind(this)
         console.log('constructor' + this.props.location)
+        this.state = {images: []}
+        if(this.props.location.data){
+            this.onResultSelected(this.props.location.data)
+        }
+    }
+
+    onResultSelected(value) {
+        console.log(value)
+        QueryHandler.query(value)
+            .then(json => {
+                this.setState({images: json})
+            })
     }
 
     render() {
-        const images = []
-        for(var i = 1; i<=15; i++){
-            images.push({reference: i, type: 'type'})
-        }
+        const images = this.state.images
         console.log(this.props.location)
         return (
 
@@ -38,10 +48,7 @@ export default class SearchPage extends React.Component {
                             category: true,
                             input: { fluid: true}
                         }}
-                        onResultSelected={(result) => {
-                            console.log(result)
-                            
-                        }}
+                        onResultSelected= {this.onResultSelected}
                     />
 
                     <div className='grid'>

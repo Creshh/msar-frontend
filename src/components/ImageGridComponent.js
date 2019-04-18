@@ -2,29 +2,19 @@ import React from 'react';
 import StackGrid, { transitions, easings } from 'react-stack-grid';
 import {Label, Popup, Image, Button, Grid, Modal, Header, Tab} from 'semantic-ui-react'
 import ReactJson from 'react-json-view'
+import QueryHandler from '../common/QueryHandler'
 
 const transition = transitions.scaleDown;
 
-const ASSETS_GET = 'api/assets/get/'
 
 export default class ImageGridComponent extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {open: false, reference: ''}
-        this.handlePath = this.handlePath.bind(this)
         this.showImage = this.showImage.bind(this)
         this.showMeta = this.showMeta.bind(this)
         this.close = this.close.bind(this)
-    }
-
-
-    handlePath(reference, thumb) {
-        // console.log(reference)
-        // const arr = reference.split('\\')
-        // console.log(arr)
-        // return ASSETS_GET + arr[arr.length -1]
-        return ASSETS_GET + reference + (thumb ? '?thumb=true' : '')
     }
 
     showImage(reference){
@@ -124,7 +114,7 @@ export default class ImageGridComponent extends React.Component {
         <div>
             <Modal dimmer open={openImage} onClose={this.close} basic size='fullscreen'>
                 <Modal.Content image>
-                    <Image wrapped src={this.handlePath(reference, false)} />
+                    <Image wrapped src={QueryHandler.getAsset(reference, false)} />
                 </Modal.Content>
             </Modal>
 
@@ -150,7 +140,7 @@ export default class ImageGridComponent extends React.Component {
                     {image_array.map(obj => (
                         <div key={obj.reference} className='imageContainer'>
                             {/* <Label className='imageLabel' attached='bottom'>{obj.type}</Label> */}
-                            <Image className='gridImage' src={this.handlePath(obj.reference, true)} alt={obj.type}/>
+                            <Image className='gridImage' src={QueryHandler.getAsset(obj.reference, true)} alt={obj.type}/>
                             <div className='imageLabel'>
                             <Button.Group floated='right'>
                                 

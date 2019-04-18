@@ -2,29 +2,20 @@ import React from 'react';
 import _ from 'lodash'
 import { Search } from 'semantic-ui-react'
 
-
-const SEARCH_SUGGEST = 'api/search/suggest?prefix='
+import QueryHandler from '../common/QueryHandler'
 
 export default class SearchComponent extends React.Component {
 
     constructor(props) {
         super(props)
-
+        console.log('constructor of searchbar - defaultValue: ' + this.props.defaultValue)
         this.state = {
             isLoading: false,
             results: [],
-            value: ''
+            value: this.props.defaultValue
         }
         this.handleSearchChange = this.handleSearchChange.bind(this)
         this.handleResultSelected = this.handleResultSelected.bind(this)
-    }
-
-    componentWillMount() {
-        this.resetComponent()
-      }
-
-    resetComponent() {
-        this.setState({ isLoading: false, results: [], value: '' })
     }
 
     handleResultSelected(e, { result }){
@@ -36,28 +27,25 @@ export default class SearchComponent extends React.Component {
         this.setState({ isLoading: true, value })
 
         if (!value){
-            this.resetComponent()
+            this.setState({
+                isLoading: false,
+                results: [],
+                value: ''
+            })
             return
         }
 
-        fetch(SEARCH_SUGGEST + value)
-            .then(response => {
-                return response.json()})
-            // .then(json => {
-            //     console.log('called api')
-            //     console.log('suggestions: \n' + JSON.stringify(json, null, 2))
-            //     return json})
-            .then(json => this.setState({
+        QueryHandler.getSuggestion(value).then(json => {
+            this.setState({
                 isLoading: false,
                 results: json,
-            }))
+            })
+        })
       }
     
       render() {
         let { isLoading, value, results } = this.state
-        if (!value){
-            value = this.props.defaultValue
-        }
+        console.log('render of searchbar - value: ' + value)
         return (
               <Search
                 {...this.props.search}
