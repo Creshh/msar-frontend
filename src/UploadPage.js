@@ -5,7 +5,7 @@ import {
   } from 'semantic-ui-react'
 import FooterComponent from './components/FooterComponent'
 import MenuComponent from './components/MenuComponent'
-import Upload from './old_components/Upload'
+import UploadComponent from './components/UploadComponent'
 
 export default class UploadPage extends React.Component {
 
@@ -20,7 +20,7 @@ export default class UploadPage extends React.Component {
                 <Segment vertical className='segmentUpload'>
                     <MenuComponent activeItem='upload'/>
 
-                    <Upload />
+                    <UploadComponent/>
 
                 </Segment>
 
