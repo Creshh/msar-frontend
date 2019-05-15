@@ -1,5 +1,5 @@
 import React from 'react';
-import {Popup,Icon, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
+import {Popup,Accordion,Icon, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
 import ReactJson from 'react-json-view'
 import QueryHandler from '../common/QueryHandler'
 import {theme} from '../common/Constants'
@@ -9,12 +9,12 @@ export default class UploadComponent extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {success: false, msg: '', showMsg: false, typeList: []}
+        this.state = {success: false, msg: '', showMsg: false, typeList: [], activeIndex: 0}
         this.onFilesAdded = this.onFilesAdded.bind(this)
         this.clickUpload = this.clickUpload.bind(this)
+        this.getJsonView = this.getJsonView.bind(this)
 
         this.fileInputRef = React.createRef()
-
     }
 
     componentDidMount(){
@@ -68,40 +68,43 @@ export default class UploadComponent extends React.Component {
             })
     }
 
+    getJsonView(json){
+        return <ReactJson src={json} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/>
+    }
+
     render() {
-        const {showMsg, success, msg, typeList} = this.state
+        const {showMsg, success, msg, typeList, activeIndex} = this.state
         
-
-
+        const panels = Object.keys(typeList).map(key => (
+            {
+                key: key,
+                title: {
+                    content: key
+                },
+                content: {
+                    content: this.getJsonView(typeList[key])
+                }
+            }
+        ))
+        
         return (
-        <div>
-             <input
-                hidden
-                ref={this.fileInputRef}
-                className="FileInput"
-                type="file"
-                onChange={this.onFilesAdded}
-            />
+            <div>
+                <input
+                    hidden
+                    ref={this.fileInputRef}
+                    className="FileInput"
+                    type="file"
+                    onChange={this.onFilesAdded}
+                />
 
-                                    
-            <Button className='imageButton' color='black' icon='add' onClick={() => this.clickUpload()}/>
-            {Object.keys(typeList).map(key => (
-                <Card key={key} fluid>
-                    <Card.Content header={key} />
-                    <Card.Content>
-                        <ReactJson  src={typeList[key]} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/>
-                    </Card.Content>
-                    <Card.Content extra>
-                    <Icon name='user' />
-                    4 Friends
-                    </Card.Content>
-                </Card>
-            ))}
-            <div className={showMsg ? 'messageBox' : 'messageBox hidden'}>
-                <Message content={msg} positive={success} negative={!success}/>
+                                        
+                <Button className='imageButton' color='black' icon='add' onClick={() => this.clickUpload()}/>
+                <Accordion fluid styled defaultActiveIndex={-1} panels={panels}/>
+                <div className={showMsg ? 'messageBox' : 'messageBox hidden'}>
+                    <Message content={msg} positive={success} negative={!success}/>
+                </div>
+
             </div>
-
-        </div>
         );
     }
 }
