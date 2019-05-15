@@ -73,6 +73,21 @@
   padding: 0.5em 0.5em 0.5em 0.5em !important;
 }
 
+ .messageBox{
+  transition: .5s ease;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  z-index: 10;
+}
+
+.hidden{
+  opacity: 0;
+}
+
 .imageLabel{
   transition: .5s ease;
   position: absolute;
