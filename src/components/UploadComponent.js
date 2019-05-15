@@ -1,7 +1,8 @@
 import React from 'react';
-import {Popup, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
+import {Popup,Icon, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
 import ReactJson from 'react-json-view'
 import QueryHandler from '../common/QueryHandler'
+import {theme} from '../common/Constants'
 
 
 export default class UploadComponent extends React.Component {
@@ -84,11 +85,11 @@ export default class UploadComponent extends React.Component {
 
                                     
             <Button className='imageButton' color='black' icon='add' onClick={() => this.clickUpload()}/>
-            {typeList.map(obj => (
-                <Card>
-                    <Card.Content header='About Amy' />
-                    <Card.Content description>
-                        <ReactJson src={obj} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/>
+            {Object.keys(typeList).map(key => (
+                <Card key={key} fluid>
+                    <Card.Content header={key} />
+                    <Card.Content>
+                        <ReactJson  src={typeList[key]} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/>
                     </Card.Content>
                     <Card.Content extra>
                     <Icon name='user' />
