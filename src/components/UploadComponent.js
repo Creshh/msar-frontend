@@ -8,7 +8,7 @@ export default class UploadComponent extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {success: false, msg: '', showMsg: false, typeList: {}}
+        this.state = {success: false, msg: '', showMsg: false, typeList: []}
         this.onFilesAdded = this.onFilesAdded.bind(this)
         this.clickUpload = this.clickUpload.bind(this)
 
@@ -27,6 +27,10 @@ export default class UploadComponent extends React.Component {
             //     console.log(value)
             // }
         })
+        .catch(err => {
+            console.log('error')
+            console.log(err)
+          });
     }
 
     clickUpload(){
@@ -66,6 +70,8 @@ export default class UploadComponent extends React.Component {
     render() {
         const {showMsg, success, msg, typeList} = this.state
         
+
+
         return (
         <div>
              <input
@@ -79,7 +85,6 @@ export default class UploadComponent extends React.Component {
                                     
             <Button className='imageButton' color='black' icon='add' onClick={() => this.clickUpload()}/>
             {typeList.map(obj => (
-                console.log(key)
                 <Card>
                     <Card.Content header='About Amy' />
                     <Card.Content description>
