@@ -45,7 +45,6 @@ export default class QueryHandler {
     static getTypes(){
         return fetch(TYPES_GET)
             .then(response => {
-                console.log(response)
                 return response.json()
             })
     }

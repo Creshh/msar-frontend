@@ -1,5 +1,5 @@
 import React from 'react'
-import {Menu} from 'semantic-ui-react'
+import {Menu, Icon} from 'semantic-ui-react'
 import {Link} from "react-router-dom";
 
 export default class MenuComponent extends React.Component {
@@ -35,6 +35,7 @@ export default class MenuComponent extends React.Component {
                         name='search'
                         active={activeItem === 'search'}
                         onClick={this.handleItemClick}>
+                            <Icon name='search' />
                             Search
                     </Menu.Item>
                     <Menu.Item
@@ -42,7 +43,16 @@ export default class MenuComponent extends React.Component {
                         name='upload'
                         active={activeItem === 'upload'}
                         onClick={this.handleItemClick}>
+                            <Icon name='upload' />
                             Upload
+                    </Menu.Item>
+                    <Menu.Item
+                        as={Link} name='schemes' to='/schemes' 
+                        name='schemes'
+                        active={activeItem === 'schemes'}
+                        onClick={this.handleItemClick}>
+                            <Icon name='file code outline' />
+                            Schemes
                     </Menu.Item>
             </Menu>
         );

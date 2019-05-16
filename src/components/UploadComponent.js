@@ -1,5 +1,5 @@
 import React from 'react';
-import {Popup,Accordion,Icon, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
+import {Popup,Accordion,Icon,Divider,List,Progress, Segment, Header, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
 import ReactJson from 'react-json-view'
 import QueryHandler from '../common/QueryHandler'
 import {theme} from '../common/Constants'
@@ -9,29 +9,11 @@ export default class UploadComponent extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {success: false, msg: '', showMsg: false, typeList: [], activeIndex: 0}
+        this.state = {success: false, msg: '', showMsg: false}
         this.onFilesAdded = this.onFilesAdded.bind(this)
         this.clickUpload = this.clickUpload.bind(this)
-        this.getJsonView = this.getJsonView.bind(this)
 
         this.fileInputRef = React.createRef()
-    }
-
-    componentDidMount(){
-        QueryHandler.getTypes()
-        .then(types => {
-            console.log(types)
-            this.setState({typeList: types})
-
-            // for (let [key, value] of Object.entries(types)) {
-            //     console.log(key)
-            //     console.log(value)
-            // }
-        })
-        .catch(err => {
-            console.log('error')
-            console.log(err)
-          });
     }
 
     clickUpload(){
@@ -68,24 +50,8 @@ export default class UploadComponent extends React.Component {
             })
     }
 
-    getJsonView(json){
-        return <ReactJson src={json} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/>
-    }
-
     render() {
-        const {showMsg, success, msg, typeList, activeIndex} = this.state
-        
-        const panels = Object.keys(typeList).map(key => (
-            {
-                key: key,
-                title: {
-                    content: key
-                },
-                content: {
-                    content: this.getJsonView(typeList[key])
-                }
-            }
-        ))
+        const {showMsg, success, msg} = this.state
         
         return (
             <div>
@@ -97,9 +63,85 @@ export default class UploadComponent extends React.Component {
                     onChange={this.onFilesAdded}
                 />
 
-                                        
-                <Button className='imageButton' color='black' icon='add' onClick={() => this.clickUpload()}/>
-                <Accordion fluid styled defaultActiveIndex={-1} panels={panels}/>
+
+                <div className='uploadContainer'>
+                    <Header as='h3' icon textAlign='center'>
+                        <Icon name='upload' />
+                        Upload Assets
+                        <Header.Subheader>Upload assets with additional metadata</Header.Subheader>
+                    </Header>
+
+                    <List divided relaxed className='fileList'>
+                        <List.Item>
+                            <List.Icon name='image' size='large'/>
+                            <List.Content>
+                                <List.Header>2A5A3100aJM.jpg</List.Header>
+                                <List.Description><Progress active size='small' total='3' value='2' progress='ratio'/></List.Description>
+                                <List.List>
+                                    <List.Item>
+                                        <List.Icon name='file'/>
+                                        <List.Content>
+                                            <List.Description>2A5A3100aJM_objects.json  </List.Description>
+                                        </List.Content>
+                                    </List.Item>
+                                    <List.Item>
+                                        <List.Icon name='file'/>
+                                        <List.Content>
+                                            <List.Description>2A5A3100aJM_exif.json </List.Description>
+                                        </List.Content>
+                                    </List.Item>
+                                </List.List>
+                            </List.Content>
+                        </List.Item>
+                        <List.Item>
+                            <List.Icon name='image' size='large'/>
+                            <List.Content>
+                                <List.Header>IMG_0139aJM.jpg</List.Header>
+                                <List.Description>...</List.Description>
+                                <List.List>
+                                    <List.Item>
+                                        <List.Icon name='file'/>
+                                        <List.Content>
+                                            <List.Description>IMG_0139aJM_objects.json</List.Description>
+                                        </List.Content>
+                                    </List.Item>
+                                    <List.Item>
+                                        <List.Icon name='file'/>
+                                        <List.Content>
+                                            <List.Description>IMG_0139aJM_exif.json</List.Description>
+                                        </List.Content>
+                                    </List.Item>
+                                </List.List>
+                            </List.Content>
+                        </List.Item>
+                        <List.Item>
+                            <List.Icon name='image' size='large'/>
+                            <List.Content>
+                                <List.Header>DSC_9393.jpg</List.Header>
+                                <List.Description>...</List.Description>
+                                <List.List>
+                                    <List.Item>
+                                        <List.Icon name='file'/>
+                                        <List.Content>
+                                            <List.Description>DSC_9393_location.json</List.Description>
+                                        </List.Content>
+                                    </List.Item>
+                                    <List.Item>
+                                        <List.Icon name='file'/>
+                                        <List.Content>
+                                            <List.Description>DSC_9393_exif.json</List.Description>
+                                        </List.Content>
+                                    </List.Item>
+                                </List.List>
+                            </List.Content>
+                        </List.Item>
+                    </List>
+
+                    <Button disabled attached='bottom' className='imageButton' color='black' icon='add' onClick={() => this.clickUpload()} /> 
+                    {/*change to upload icon after successfull iteration over files*/}
+
+                </div>
+
                 <div className={showMsg ? 'messageBox' : 'messageBox hidden'}>
                     <Message content={msg} positive={success} negative={!success}/>
                 </div>

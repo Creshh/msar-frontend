@@ -5,18 +5,18 @@ import {
   } from 'semantic-ui-react'
 import FooterComponent from './components/FooterComponent'
 import MenuComponent from './components/MenuComponent'
-import UploadComponent from './components/UploadComponent'
+import SchemeComponent from './components/SchemeComponent'
 
-export default class UploadPage extends React.Component {
+export default class SchemePage extends React.Component {
 
     render() {
 
         return (
             <div id='page'>
                 <Segment vertical className='segmentUpload'>
-                    <MenuComponent activeItem='upload'/>
+                    <MenuComponent activeItem='schemes'/>
 
-                    <UploadComponent/>
+                    <SchemeComponent/>
 
                 </Segment>
 

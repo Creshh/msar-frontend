@@ -128,3 +128,18 @@
   flex-basis: 550px;
   flex-grow: 1;
 }
+
+.schemaContainer {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.uploadContainer {
+  margin-left: 10%;
+  margin-right: 10%;
+  text-align: center;
+}
+
+.fileList {
+  text-align: left;
+}
