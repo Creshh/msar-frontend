@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import SearchPage from './SearchPage';
 import LandingPage from './LandingPage';
 import UploadPage from './UploadPage';
+import SchemePage from './SchemePage';
 
 const styleLink = document.createElement("link")
 styleLink.rel = "stylesheet"
@@ -17,6 +18,7 @@ ReactDOM.render(
             <Route path='/' exact component={LandingPage} />
             <Route path='/search' component={SearchPage} />
             <Route path='/upload' component={UploadPage} />
+            <Route path='/schemes' component={SchemePage} />
         </div>
     </Router>,
     document.getElementById('main')
