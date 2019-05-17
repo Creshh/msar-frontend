@@ -46,26 +46,53 @@ export default class UploadComponent extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {success: false, msg: '', showMsg: false}
+        this.state = {success: false, msg: '', showMsg: false, files: {}, status: UPLOAD_CLEAR}
         this.onFilesAdded = this.onFilesAdded.bind(this)
         this.clickUpload = this.clickUpload.bind(this)
         this.createListItem = this.createListItem.bind(this)
         this.createSubListItem = this.createSubListItem.bind(this)
+        this.onMetaJsonParsed = this.onMetaJsonParsed.bind(this)
+        this.deleteFile = this.deleteFile.bind(this)
+        this.upload = this.upload.bind(this)
 
         this.fileInputRef = React.createRef()
     }
 
     clickUpload(){
-        this.fileInputRef.current.click()
+        const {status} = this.state
+        if(status === UPLOAD_READY){
+            this.upload()
+        } else if (status === UPLOAD_CLEAR){
+            this.fileInputRef.current.click()
+        }
     }
 
+    upload(){
+        this.setState({status: UPLOAD_PENDING})
+        const {files} = this.state
+        // QueryHandler.addDocument(files[0], uploadRef)
+        //     .then(result => {
+        //         this.setState({success: result.success, msg: result.msg, showMsg: true})
+        //         setTimeout(() => {
+        //             this.setState({showMsg: false})
+        //         }, result.success ? 3000 : 10000)
+        //     })
+
+        // TODO .........
+    }
 
     createListItem(assetFileName, assetSuccess, metaFileMap){
-        const total = Object.keys(metaFileMap).length
+
+        const {status} = this.state
+
+        let total = 0
         let value = 0
 
         for(const metaFileName of Object.keys(metaFileMap)){
-            if(metaFileMap[metaFileName]){
+            if(metaFileMap[metaFileName].upload){
+                total += 1
+            }
+            if(metaFileMap[metaFileName].success){
                 value += 1
             }
         }
@@ -74,33 +101,96 @@ export default class UploadComponent extends React.Component {
             <List.Item key={assetFileName}>
                 <List.Icon name='image' size='large'/>
                 <List.Content>
-                    <List.Header>{assetFileName} {assetSuccess ? <Icon name='check' /> : <Loader active inline size='tiny'/>}</List.Header>
+                    <List.Header>
+                        {assetFileName}
+                        {total > 0 ? (assetSuccess ? <Icon name='check' /> : 
+                            (status === UPLOAD_PENDING ? <Loader active inline size='tiny'/> : '')) : ''}
+                        </List.Header>
                     <List.List>
                         {Object.keys(metaFileMap).map(metaFileName => (this.createSubListItem(metaFileName, metaFileMap[metaFileName])))}
                     </List.List>
-                    <List.Description><Progress size='small' total={total} value={value} progress='ratio' autoSuccess/></List.Description>
+                    <List.Description>
+                        {total > 0 ? <Progress size='small' total={total} value={value} progress='ratio' autoSuccess/> : <div className='problemText'>No metafiles attached - will be skipped!</div>}
+                    </List.Description>
                 </List.Content>
             </List.Item>
         )
     }
 
-    createSubListItem(metaFileName, success){
+    createSubListItem(metaFileName, values){
+
+        const {status} = this.state
+
         return (
             <List.Item key={metaFileName}>
                 <List.Icon name='file'/>
                 <List.Content>
-                    <List.Description>{metaFileName} {success ? <Icon name='check' /> : <Loader active inline size='mini'/>}</List.Description>
+                    <List.Description>
+                        {metaFileName}
+                        {' [' + values.type + '|' + values.source + '] '}
+                        {values.upload ? 
+                            (values.success ? 
+                                <Icon name='check' /> :
+                                (status === UPLOAD_PENDING ? <Loader active inline size='mini'/> : '')) :
+                            <span className='problemText'>{values.problem} - will be skipped!</span>}
+                        {values.upload ? <Icon name='delete' onClick={() => this.deleteFile(metaFileName)}/> : ''}
+                    </List.Description>
                 </List.Content>
             </List.Item>
         )
     }
 
+    deleteFile(metaFileName){
+        const {files} = this.state
+
+        for(const fileName of Object.keys(files)){
+            if(Object.keys(files[fileName].metaFiles).includes(metaFileName)){
+                delete files[fileName].metaFiles[metaFileName]
+            }
+        }
+
+        this.setState({files: files})
+    }
+
+    // in function get filemap from state and add metadata values to filemap; add others with no reference to error map in state
+    onMetaJsonParsed(filename, meta){
+        const {files, corruptMetadata} = this.state
+
+        const reference = meta.reference
+        const source = meta.source
+        const type = meta.type
+        // console.log(reference, source, type)
+
+        let baseReference =  ''
+        if(reference.includes('/')){
+            baseReference = reference.substring(reference.lastIndexOf('/')+1).split('.')[0];
+        } else if(reference.includes('\\')){
+            baseReference = reference.substring(reference.lastIndexOf('\\')+1).split('.')[0];
+        }
+
+        // console.log(baseReference)
+        let duplicate = false
+        for(const metaFile of Object.keys(files[baseReference].metaFiles)){
+            if(files[baseReference].metaFiles[metaFile].type === type && files[baseReference].metaFiles[metaFile].source === source){
+                duplicate = true   
+                break
+            }
+        }
+
+        if(duplicate){
+            files[baseReference].metaFiles[filename] = {success: false, upload: false, problem: 'Duplicate entry', type: type, source: source}
+        } else {
+            files[baseReference].metaFiles[filename] = {success: false, upload: true, problem: '', type: type, source: source}
+        }
+        // console.log(files)
+        this.setState({files: files})
+    }
 
     onFilesAdded(e){
         const files = e.target.files;
-        console.log(files)
+        //console.log(files)
 
-        this.setState({files: {}, success: false, msg: ''})
+        this.setState({files: {}, status: UPLOAD_PENDING, corruptAssets: {}, corruptMetadata: {}, success: false, msg: ''})
         // build fileMap
         
         // maybe call API to check files and get map back with information (already there, error, missing etc), resolve warnings and then upload remaining elements -> problem: need to upload files twice?!
@@ -114,49 +204,37 @@ export default class UploadComponent extends React.Component {
         for(const file of files){
             if(file['type'].split('/')[0] === 'image'){
                 fileMap[file.name.split('.')[0]] = {
+                    'fileType': file.name.split('.')[1],
                     'success': false,
                     'reference': -1,
                     'finished': false,
-                    'metaFiles': {
-                       
-                    },
+                    'metaFiles': {},
                 }
             }
         }
 
-        // set fileMap to state
+        this.setState({files: fileMap})
 
         for(const file of files){
             if(file['type'] === 'application/json'){
-
-
-                let fr = new FileReader()
-                fr.onload = ev => (console.log(JSON.parse(ev.target.result))) // in function get filemap from state and add metadata values to filemap; add others with no reference to error map in state
+                const fr = new FileReader()
+                fr.onload = ev => (this.onMetaJsonParsed(file.name, JSON.parse(ev.target.result)))
                 fr.readAsText(file)
-                console.log('test')
-    
             }
         }
+
+        this.setState({status: UPLOAD_READY})
         
-        // QueryHandler.addDocument(files[0], uploadRef)
-        //     .then(result => {
-        //         this.setState({success: result.success, msg: result.msg, showMsg: true})
-        //         setTimeout(() => {
-        //             this.setState({showMsg: false})
-        //         }, result.success ? 3000 : 10000)
-        //     })
+
     }
 
     render() {
-        const {showMsg, success, msg} = this.state
-
-        const fileMap = {}
+        const {showMsg, success, msg, status, files} = this.state
 
         let disabled = true
         let icon = 'add'
 
-        const uploadState = UPLOAD_CLEAR
-        switch (uploadState){
+        switch (status){
             case UPLOAD_CLEAR: 
                 disabled = false
                 icon = 'add'
@@ -201,11 +279,10 @@ export default class UploadComponent extends React.Component {
                     </Header>
 
                     <List divided relaxed className='fileList'>
-                        {Object.keys(fileMap).map(fileName => this.createListItem(fileName, fileMap[fileName].success, fileMap[fileName].metaFiles))}
+                        {Object.keys(files).map(fileName => this.createListItem(fileName + '.' + files[fileName].fileType, files[fileName].success, files[fileName].metaFiles))}
                     </List>
 
                     <Button disabled={disabled} attached='bottom' className='imageButton' color='black' icon={icon} onClick={() => this.clickUpload()} /> 
-                    {/*change to upload icon after successfull iteration over files*/}
 
                 </div>
 
