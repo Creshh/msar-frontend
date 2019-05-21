@@ -3,6 +3,7 @@ const SEARCH_SUGGEST = 'api/search/suggest?prefix='
 const SEARCH_QUERY = 'api/search/query?query='
 const ASSETS_UPLOAD = 'api/assets/upload'
 const ASSETS_GET = 'api/assets/get/'
+const ASSETS_REMOVE = 'api/assets/remove/'
 const DOCUMENTS_GET = 'api/doc/get?'
 const DOCUMENTS_ADD = 'api/doc/add?'
 const TYPES_GET = 'api/type/get'
@@ -11,6 +12,13 @@ export default class QueryHandler {
 
     static getAsset(reference, thumb, download=false){
         return ASSETS_GET + reference + (thumb ? '?thumb=true' : '?thumb=false') + (download ? '&dl=true' : '&dl=false')
+    }
+
+    static removeAsset(reference){
+        return fetch(ASSETS_REMOVE + reference)
+        .then(response => {
+            return response.json()
+        })
     }
 
     static downloadAsset(reference){
@@ -51,23 +59,26 @@ export default class QueryHandler {
 
 
     static uploadFile(file){
-        if(!file) {
-            return {success: false, msg: 'Please upload a file.'}
+        // if(!file) {
+        //     return {success: false, msg: 'Please upload a file.'}
 
-          }
-          if(file.size >= 50000000) {
-            return {success: false, msg: 'File size exceeds limit of 50MB.'}
-          }
+        //   }
+        //   if(file.size >= 50000000) {
+        //     return {success: false, msg: 'File size exceeds limit of 50MB.'}
+        //   }
           let data = new FormData();
           data.append('file', file);
           data.append('name', file.name);
-          fetch(ASSETS_UPLOAD, {
+          return fetch(ASSETS_UPLOAD, {
             method: 'POST',
             body: data
           }).then(response => {
-            return {success: true, msg: 'success'}
+              return response.json()
+          }).then(json => {
+            // console.log(json)
+            return {success: true, msg: 'success', reference: json.id}
           }).catch(err => {
-            return {success: false, msg: err}
+            return {success: false, msg: err, reference: -1}
           });
     }
 
@@ -75,17 +86,19 @@ export default class QueryHandler {
         let data = new FormData();
         data.append('file', file);
         data.append('name', file.name);
-        let success;
         return fetch(DOCUMENTS_ADD + 'reference=' + reference, {
             method: 'POST',
             body: data
         })
         .then(response => {
-            success = response.ok;
-            return response.text()
-        })
-        .then(msg => {
-            return {success: success, msg: msg}
+            console.log(response)
+            if(response.ok){
+                return {success: response.ok, msg: response.statusText}
+            } else {
+                return response.text().then(msg => {
+                    return {success: false, msg: msg}
+                })
+            }
         })
         .catch(err => {
             console.log(err)
