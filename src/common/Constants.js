@@ -16,3 +16,10 @@ export const theme = {
     base0E: "black",
     base0F: "black",
 }
+
+export const UploadStates = {
+    PENDING: 'UPLOAD_PENDING',
+    READY: 'UPLOAD_READY',
+    FINISHED: 'UPLOAD_FINISHED',
+    CLEAR: 'UPLOAD_CLEAR'
+}
