@@ -10,131 +10,130 @@ export default class UploadComponent extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {success: false, msg: '', showMsg: false, files: {}, status: UploadStates.CLEAR}
+        this.state = {success: false, files: {}, status: UploadStates.CLEAR}
         this.onFilesAdded = this.onFilesAdded.bind(this)
         this.clickUpload = this.clickUpload.bind(this)
         this.onMetaJsonParsed = this.onMetaJsonParsed.bind(this)
         this.removeMetaFile = this.removeMetaFile.bind(this)
         this.upload = this.upload.bind(this)
         this.uploadMetaFiles = this.uploadMetaFiles.bind(this)
+        this.clearUpload = this.clearUpload.bind(this)
 
         this.fileInputRef = React.createRef()
     }
 
+    clearUpload(){
+        this.setState({files: {}, status: UploadStates.CLEAR})
+    }
+
     clickUpload(){
         const {status} = this.state
-        if(status === UploadStates.READY){
-            this.upload()
-        } else if (status === UploadStates.CLEAR){
+        switch (status){
+            case UploadStates.READY:
+                this.upload()    
+                break
+            case UploadStates.CLEAR:
             this.fileInputRef.current.click()
+                break
+            case UploadStates.FINISHED:
+                this.clearUpload()
+                break
         }
     }
 
-    upload(){
+    async upload(){
         this.setState({status: UploadStates.PENDING})
         const {files} = this.state
-        console.log(files)
 
-        for(const file of Object.keys(files)){
-            if(files[file].total > 0){
-                QueryHandler.uploadFile(files[file].fileObj)
-                    .then(result => {
-                        const {success, msg, reference} = result
-                        files[file].finished = true
-                        files[file].success = success
-                        files[file].msg = msg
-                        if(success){
-                            files[file].reference = reference
-                            this.setState({files: files})
-                            this.uploadMetaFiles(files, file, reference)
-                                .then(result => {
-                                    if(result === 0){
-                                        QueryHandler.removeAsset(reference)
-                                        files[file].success = false
-                                        files[file].msg = 'Did not upload because of no metadata!'
-                                        this.setState({files: files})
-                                        console.log('remove asset')
-                                    }
-                                })
-                        }
-                    })
+        for(const file of Object.values(files)){
+            if(file.total > 0){
+                const {success, msg, reference} = await QueryHandler.uploadFile(file.fileObj)
+                file.success = success
+                file.msg = msg
+                if(success){
+                    file.reference = reference
+                    this.setState({files: files})
+                    const result = await this.uploadMetaFiles(files, file.metaFiles, reference)
+                    if(result === 0){
+                        QueryHandler.removeAsset(reference)
+                        file.success = false
+                        file.msg = 'Did not upload because of no metadata!'
+                        this.setState({files: files})
+                    }
+                }
             }
+            file.finished = true
+            this.setState({files: files})
         }
+        this.setState({status: UploadStates.FINISHED})
     }
 
-    async uploadMetaFiles(files, fileName, reference){
-        const metaFiles = files[fileName].metaFiles
-        let success = 0
-        for(const file of Object.keys(metaFiles)){
-            if(metaFiles[file].upload){
-                const result = await QueryHandler.addDocument(metaFiles[file].fileObj, reference)
-                metaFiles[file].success = result.success
-                metaFiles[file].msg = result.msg
-                metaFiles[file].finished = true
+    async uploadMetaFiles(files, metaFiles, reference){
+        let count = 0
+        for(const metaFile of Object.values(metaFiles)){
+            if(metaFile.upload){
+                const result = await QueryHandler.addDocument(metaFile.fileObj, reference)
+                metaFile.success = result.success
+                metaFile.msg = result.msg
                 if(result.success){
-                    success++
+                    count++
                 }
-                this.setState({files: files})
-            } else {
-                metaFiles[file].finished = true
-                this.setState({files: files})
             }
+            metaFile.finished = true
+            this.setState({files: files})
         }
-        return success
+        return count
     }
 
     removeMetaFile(metaFileName){
         const {files} = this.state
 
-        for(const fileName of Object.keys(files)){
-            if(Object.keys(files[fileName].metaFiles).includes(metaFileName)){
-                delete files[fileName].metaFiles[metaFileName]
+        for(const file of Object.values(files)){
+            if(Object.keys(file.metaFiles).includes(metaFileName)){
+                delete file.metaFiles[metaFileName]
+                file.total--
             }
         }
 
         this.setState({files: files})
     }
 
-    onMetaJsonParsed(filename, meta, fileObj){
+    onMetaJsonParsed(metaFileName, meta, fileObj){
         const {files} = this.state
 
         const reference = meta.reference
         const source = meta.source
         const type = meta.type
 
-        let baseReference =  ''
-        if(reference.includes('/')){
-            baseReference = reference.substring(reference.lastIndexOf('/')+1).split('.')[0];
-        } else if(reference.includes('\\')){
-            baseReference = reference.substring(reference.lastIndexOf('\\')+1).split('.')[0];
-        }
+        let baseReference = reference.substring(reference.replace(/\\/g, '/').lastIndexOf('/')+1).split('.')[0]; 
 
-        let duplicate = false
-        for(const metaFile of Object.keys(files[baseReference].metaFiles)){
-            if(files[baseReference].metaFiles[metaFile].type === type && files[baseReference].metaFiles[metaFile].source === source){
-                duplicate = true   
+        let upload = true
+        let msg = ''
+        for(const metaFile of Object.values(files[baseReference].metaFiles)){
+            if(metaFile.type === type && metaFile.source === source){
+                upload = false   
+                msg = 'Duplicate entry - will be skipped!'
                 break
             }
         }
 
-        if(duplicate){
-            files[baseReference].metaFiles[filename] = {success: false, finished: false, upload: false, msg: 'Duplicate entry - will be skipped!', type: type, source: source, fileObj: fileObj}
-        } else {
+        if(upload){
             files[baseReference].total++
-            files[baseReference].metaFiles[filename] = {success: false, finished: false, upload: true, msg: '', type: type, source: source, fileObj: fileObj}
         }
+
+        files[baseReference].metaFiles[metaFileName] = {success: false, finished: false, upload: upload, msg: msg, type: type, source: source, fileObj: fileObj}
         this.setState({files: files})
     }
 
     onFilesAdded(e){
-        const files = e.target.files;
+        const fileList = e.target.files;
 
-        this.setState({files: {}, status: UploadStates.PENDING, success: false, msg: ''})
+        this.setState({files: {}, status: UploadStates.PENDING})
 
-        let fileMap = {}
-        for(const file of files){
+        let files = {}
+        for(const file of fileList){
             if(file['type'].split('/')[0] === 'image'){
-                fileMap[file.name.split('.')[0]] = {
+                files[file.name.split('.')[0]] = {
                     'fileType': file.name.split('.')[1],
                     'fileObj': file,
                     'success': false,
@@ -147,9 +146,9 @@ export default class UploadComponent extends React.Component {
             }
         }
 
-        this.setState({files: fileMap})
+        this.setState({files: files})
 
-        for(const file of files){
+        for(const file of fileList){
             if(file['type'] === 'application/json'){
                 const fr = new FileReader()
                 fr.onload = ev => (this.onMetaJsonParsed(file.name, JSON.parse(ev.target.result), file))
