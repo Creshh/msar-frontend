@@ -22,7 +22,7 @@ export default class FooterComponent extends React.Component {
                             <List.Item as='a'>Citation</List.Item>
                             <List.Item as={Link} to='/search'>Search</List.Item>
                             <List.Item as={Link} to='/upload'>Upload</List.Item>
-                            <List.Item as={Link} to='/'>Metadata Formats</List.Item>
+                            <List.Item as={Link} to='/schemes'>Schemes</List.Item>
                         </List>
                         </Grid.Column>
                         <Grid.Column>

@@ -52,14 +52,13 @@ export default class UploadComponent extends React.Component {
                 file.msg = msg
                 if(success){
                     file.reference = reference
-                    this.setState({files: files})
                     const result = await this.uploadMetaFiles(files, file.metaFiles, reference)
                     if(result === 0){
                         QueryHandler.removeAsset(reference)
                         file.success = false
                         file.msg = 'Did not upload because of no metadata!'
-                        this.setState({files: files})
                     }
+                    this.setState({files: files})
                 }
             }
             file.finished = true
@@ -101,16 +100,12 @@ export default class UploadComponent extends React.Component {
     onMetaJsonParsed(metaFileName, meta, fileObj){
         const {files} = this.state
 
-        const reference = meta.reference
-        const source = meta.source
-        const type = meta.type
-
-        let baseReference = reference.substring(reference.replace(/\\/g, '/').lastIndexOf('/')+1).split('.')[0]; 
+        let reference = meta.reference.substring(meta.reference.replace(/\\/g, '/').lastIndexOf('/')+1).split('.')[0]; 
 
         let upload = true
-        let msg = ''
-        for(const metaFile of Object.values(files[baseReference].metaFiles)){
-            if(metaFile.type === type && metaFile.source === source){
+        let msg
+        for(const metaFile of Object.values(files[reference].metaFiles)){
+            if(metaFile.type === meta.type && metaFile.source === meta.source){
                 upload = false   
                 msg = 'Duplicate entry - will be skipped!'
                 break
@@ -118,10 +113,10 @@ export default class UploadComponent extends React.Component {
         }
 
         if(upload){
-            files[baseReference].total++
+            files[reference].total++
         }
 
-        files[baseReference].metaFiles[metaFileName] = {success: false, finished: false, upload: upload, msg: msg, type: type, source: source, fileObj: fileObj}
+        files[reference].metaFiles[metaFileName] = {success: false, finished: false, upload: upload, msg: msg, type: meta.type, source: meta.source, fileObj: fileObj}
         this.setState({files: files})
     }
 

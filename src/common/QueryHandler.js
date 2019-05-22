@@ -7,6 +7,8 @@ const ASSETS_REMOVE = 'api/assets/remove/'
 const DOCUMENTS_GET = 'api/doc/get?'
 const DOCUMENTS_ADD = 'api/doc/add?'
 const TYPES_GET = 'api/type/get'
+const TYPES_ADD = 'api/type/add'
+
 
 export default class QueryHandler {
 
@@ -87,6 +89,29 @@ export default class QueryHandler {
         data.append('file', file);
         data.append('name', file.name);
         return fetch(DOCUMENTS_ADD + 'reference=' + reference, {
+            method: 'POST',
+            body: data
+        })
+        .then(response => {
+            if(response.ok){
+                return {success: response.ok, msg: response.statusText}
+            } else {
+                return response.text().then(msg => {
+                    return {success: false, msg: msg}
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            return {success: false, msg: err}
+        });
+    }
+
+    static addType(file){
+        let data = new FormData();
+        data.append('file', file);
+        data.append('name', file.name);
+        return fetch(TYPES_ADD, {
             method: 'POST',
             body: data
         })
