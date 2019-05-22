@@ -1,5 +1,5 @@
 import React from 'react';
-import {Popup,Accordion,Icon,Divider,List, Segment, Header, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
+import {Accordion,Icon, Header, Button, Message} from 'semantic-ui-react'
 import ReactJson from 'react-json-view'
 import QueryHandler from '../common/QueryHandler'
 import {theme} from '../common/Constants'
@@ -17,7 +17,7 @@ export default class UploadComponent extends React.Component {
         this.fileInputRef = React.createRef()
     }
 
-    componentDidMount(){
+    refreshTypes(){
         QueryHandler.getTypes()
         .then(types => {
             this.setState({typeList: types})
@@ -25,7 +25,11 @@ export default class UploadComponent extends React.Component {
         .catch(err => {
             console.log('______ERROR_________')
             console.log(err)
-          });
+        });
+    }
+
+    componentDidMount(){
+        this.refreshTypes()
     }
 
     clickUpload(){
@@ -34,11 +38,14 @@ export default class UploadComponent extends React.Component {
 
     onFilesAdded(e){
         const files = e.target.files;
-        
+        console.log('onfilesadded')
         this.setState({success: false, msg: ''})
 
-        QueryHandler.addDocument(files[0], uploadRef)
+        QueryHandler.addType(files[0])
             .then(result => {
+                if(result.success){
+                    this.refreshTypes()
+                }
                 this.setState({success: result.success, msg: result.msg, showMsg: true})
                 setTimeout(() => {
                     this.setState({showMsg: false})
@@ -79,7 +86,7 @@ export default class UploadComponent extends React.Component {
                     <Header as='h3' icon textAlign='center'>
                         <Icon name='file code outline' />
                         JSON Schemes
-                        <Header.Subheader>View or add JSON Schemas to validate metadata structures</Header.Subheader>
+                        <Header.Subheader>View or add JSON Schemes to validate metadata structures</Header.Subheader>
                     </Header>
 
                     <Accordion fluid styled defaultActiveIndex={-1} panels={panels}/>
