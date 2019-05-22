@@ -14,8 +14,9 @@ export default class ListComponent extends React.Component {
 
         return (
             <List divided relaxed className='fileList'>
-                {Object.keys(files).map(fileName => (
+                {Object.keys(files).map((fileName) => (
                     <ListElementAssetComponent
+                        key={fileName}
                         status={status}
                         assetFileName={fileName + '.' + files[fileName].fileType}
                         assetSuccess={files[fileName].success}

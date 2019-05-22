@@ -1,5 +1,5 @@
 import React from 'react';
-import {Popup,Accordion,Icon,Loader,Divider,List,Progress, Segment, Header, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
+import {Icon,Loader,List} from 'semantic-ui-react'
 import {UploadStates} from '../../common/Constants'
 
 export default class ListElementMetaComponent extends React.Component {
@@ -23,7 +23,7 @@ export default class ListElementMetaComponent extends React.Component {
                                 (values.success ? 
                                     <Icon name='check' /> :
                                     <span className='problemText'>{values.msg}</span>) :
-                                (status === UploadStates.UPLOAD_PENDING ?
+                                (status === UploadStates.PENDING ?
                                     <Loader active inline size='mini'/> :
                                     <Icon name='delete' onClick={() => this.props.removeFile(metaFileName)}/>)) :
                             <span className='problemText'>{values.msg}</span>}

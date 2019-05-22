@@ -1,12 +1,13 @@
 import React from 'react';
-import {Popup,Accordion,Icon,Loader,Divider,List,Progress, Segment, Header, Image, Button, Modal, Tab, Card, Message} from 'semantic-ui-react'
+import {Icon,Loader,List,Progress} from 'semantic-ui-react'
 import {UploadStates} from '../../common/Constants'
 import ListElementMetaComponent from './ListElementMetaComponent';
 
 const STATE = {
     PENDING: 'PENDING',
     SUCCESS: 'SUCCESS',
-    ERROR: 'ERROR'
+    ERROR: 'ERROR',
+    READY: 'READY'
 }
 
 function ListHeaderComponent(props){
@@ -25,13 +26,17 @@ function ListHeaderComponent(props){
                 return (
                     <Icon name='exclamation' />
                 )
+            case STATE.READY:
+                    return (
+                        ''
+                    )
         }
 }
 
 function ListDescriptionComponent(props){
-    const {problem, msg, totalValue, currentValue} = props
+    const {msg, totalValue, currentValue} = props
     
-    if(problem){
+    if(msg){
         return (
             <div className='problemText'>{msg}</div>
         )   
@@ -61,13 +66,17 @@ export default class ListElementAssetComponent extends React.Component {
         }
         
         let ownState = ''
-        if(status === UploadStates.UPLOAD_PENDING){
-            ownState = STATE.PENDING
-        } else {
+
+        if(finished || status === UploadStates.FINISHED){
             if(total > 0 && assetSuccess)
                 ownState = STATE.SUCCESS
             else
                 ownState = STATE.ERROR
+        }
+        else if(status === UploadStates.PENDING){
+            ownState = STATE.PENDING
+        } else {
+            ownState = STATE.READY
         }
 
         if(total === 0){
@@ -84,15 +93,17 @@ export default class ListElementAssetComponent extends React.Component {
                 </List.Header>
                 <List.List>
                     {Object.keys(metaFileMap).map(metaFileName => (
-                        <ListElementMetaComponent 
+                        <ListElementMetaComponent
+                            key={metaFileName}
+                            status={status}
                             metaFileName={metaFileName}
-                            metaFileMap={metaFileMap[metaFileName]}
-                            removeMetaFile={(metaFileName => (this.props.removeFile(metaFileName)))}
+                            values={metaFileMap[metaFileName]}
+                            removeFile={(metaFileName => (this.props.removeMetaFile(metaFileName)))}
                             />
                         ))}
                 </List.List>
                 <List.Description>
-                    <ListDescriptionComponent problem={msg} msg={msg} totalValue={total} currentValue={value} />
+                    <ListDescriptionComponent msg={msg} totalValue={total} currentValue={value} />
                 </List.Description>
             </List.Content>
         </List.Item>

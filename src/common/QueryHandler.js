@@ -76,7 +76,7 @@ export default class QueryHandler {
               return response.json()
           }).then(json => {
             // console.log(json)
-            return {success: true, msg: 'success', reference: json.id}
+            return {success: true, reference: json.id}
           }).catch(err => {
             return {success: false, msg: err, reference: -1}
           });
@@ -91,7 +91,6 @@ export default class QueryHandler {
             body: data
         })
         .then(response => {
-            console.log(response)
             if(response.ok){
                 return {success: response.ok, msg: response.statusText}
             } else {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from 'semantic-ui-react'
+import {Button, Loader, Icon} from 'semantic-ui-react'
 import {UploadStates} from '../../common/Constants'
 
 export default class UploadButtonComponent extends React.Component {
@@ -11,27 +11,33 @@ export default class UploadButtonComponent extends React.Component {
     render() {
         const {status} = this.props
 
-        let disabled = false
+        let pending = false
         let icon
         
         switch (status){
-            case UploadStates.UPLOAD_CLEAR: 
+            case UploadStates.CLEAR: 
                 icon = 'add'
                 break
-            case UploadStates.UPLOAD_READY:
+            case UploadStates.READY:
                 icon = 'upload'
                 break
-            case UploadStates.UPLOAD_PENDING:
-                disabled = true
+            case UploadStates.PENDING:
+                pending = true
                 icon = 'upload'
                 break
-            case UploadStates.UPLOAD_FINISHED:
+            case UploadStates.FINISHED:
                 icon = 'redo alternate'
                 break
         }
         
         return (
-            <Button disabled={disabled} attached='bottom' className='imageButton' color='black' icon={icon} onClick={() => this.props.clickUpload()} /> 
+            <Button disabled={pending} attached='bottom' className='imageButton' color='black' onClick={() => this.props.clickUpload()} >
+                {
+                    pending ?
+                    <Loader active inline inverted size='tiny'/> :
+                    <Icon name={icon} />
+                }
+            </Button> 
         );
     }
 }
