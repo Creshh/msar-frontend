@@ -147,3 +147,8 @@
 .problemText {
   color: red;
 }
+
+
+.searchLabel {
+  margin-bottom: 0.3em !important;
+}
