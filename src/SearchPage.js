@@ -48,16 +48,18 @@ export default class SearchPage extends React.Component {
                         onResultSelected= {this.onResultSelected}
                     />
 
-                    <div className='grid'>
+                    <FilterComponent />
+
+                    {/* <div className='grid'>
                         <div className= 'grid-filters'>
                             <FilterComponent />
-                        </div> 
+                        </div>  */}
                         <Segment basic className='grid-images'>
                             <ImageGridComponent
                                 images={images}
                             />
                         </Segment>
-                    </div>
+                    {/* </div> */}
                 </Segment>
 
                 <FooterComponent />
