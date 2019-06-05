@@ -1,6 +1,7 @@
 
 const SEARCH_SUGGEST = 'api/search/suggest?prefix='
 const SEARCH_QUERY = 'api/search/query?query='
+const SEARCH_MULTIPLE = 'api/search/mutliple?request='
 const ASSETS_UPLOAD = 'api/assets/upload'
 const ASSETS_GET = 'api/assets/get/'
 const ASSETS_REMOVE = 'api/assets/remove/'
@@ -8,6 +9,7 @@ const DOCUMENTS_GET = 'api/doc/get?'
 const DOCUMENTS_ADD = 'api/doc/add?'
 const TYPES_GET = 'api/type/get'
 const TYPES_ADD = 'api/type/add'
+const FIELDS_GET = 'api/type/getFields'
 
 
 export default class QueryHandler {
@@ -45,6 +47,13 @@ export default class QueryHandler {
             })
     }
 
+    static multiple(value){
+        return fetch(SEARCH_MULTIPLE + value)
+            .then(response => {
+                return response.json()
+            })
+    }
+
     static getDocuments(reference){
         return fetch(DOCUMENTS_GET + 'reference=' + reference)
             .then(response => {
@@ -54,6 +63,13 @@ export default class QueryHandler {
 
     static getTypes(){
         return fetch(TYPES_GET)
+            .then(response => {
+                return response.json()
+            })
+    }
+
+    static getFields(){
+        return fetch(FIELDS_GET)
             .then(response => {
                 return response.json()
             })
