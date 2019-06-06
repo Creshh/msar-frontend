@@ -47,6 +47,10 @@
   margin: 1em 1em 1em 1em;
 }
 
+.tagList {
+  margin: 1em 0em;
+}
+
 .grid {
   display: flex;
   flex-direction: row;
@@ -151,4 +155,8 @@
 
 .searchLabel {
   margin-bottom: 0.3em !important;
+}
+
+.field {
+  display: inline-block !important;
 }

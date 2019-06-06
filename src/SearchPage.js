@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import {
-    Segment,
+    Segment, Divider,
   } from 'semantic-ui-react'
 import ImageGridComponent from './components/ImageGridComponent'
 import FooterComponent from './components/FooterComponent'
@@ -31,6 +31,9 @@ export default class SearchPage extends React.Component {
 
     render() {
         const images = this.state.images
+
+        console.log(this.props.location.data)
+
         return (
 
             <div id='page'>
@@ -49,17 +52,12 @@ export default class SearchPage extends React.Component {
                     />
 
                     <FilterComponent />
-
-                    {/* <div className='grid'>
-                        <div className= 'grid-filters'>
-                            <FilterComponent />
-                        </div>  */}
-                        <Segment basic className='grid-images'>
-                            <ImageGridComponent
-                                images={images}
-                            />
-                        </Segment>
-                    {/* </div> */}
+                    <Divider />
+                    <Segment basic className='grid-images'>
+                        <ImageGridComponent
+                            images={images}
+                        />
+                    </Segment>
                 </Segment>
 
                 <FooterComponent />
