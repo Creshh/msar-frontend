@@ -15,19 +15,7 @@ function LabelComponent(props){
     )
 }
 
-// function ValueInput(props){
-//     <Input 
-//     value={inputValue}
-//     placeholder={range ? 'from ...' : 'Value'} 
-//     onChange={(e, data) => (this.setState({inputValue: data.value}))}/>
-
-// {range ? 
-//     <Input placeholder='... to' 
-//         onChange={(e, data) => (this.setState({inputRange: data.value}))}/> : ''
-// }
-// }
-
-const example = {housenumber_34: {field: 'housenumber', value: '34', range: '69', add: false}, city_Dresden: {field: 'city', value: 'Dresden', add: false}, streetBahnhofstraße: {field: 'street', value: 'Bahnhofstraße', add: true}}
+const example = {housenumber34: {field: 'housenumber', lower: '34', upper: '69', add: false}, city_Dresden: {field: 'city', lower: 'Dresden', add: false}, streetBahnhofstraße: {field: 'street', lower: 'Bahnhofstraße', add: true}}
 
 export default class FilterComponent extends React.Component {
     constructor(props) {
@@ -39,7 +27,7 @@ export default class FilterComponent extends React.Component {
             inputRange: '',
             inputValue: '',
             dateValue: '',
-            tags: example
+            tags: example,
         }
         this.handleFieldChanged = this.handleFieldChanged.bind(this)
         this.isRange = this.isRange.bind(this)
@@ -82,25 +70,25 @@ export default class FilterComponent extends React.Component {
     clickLabel(key){
         const {tags} = this.state
         delete tags[key]
-
         this.setState({tags: tags})
+        this.props.onTagsChanged(tags)
     }
 
     addTag(e, data){
         const {tags, inputValue, inputRange, selected, dateValue} = this.state
         if(dateValue){
             const dates = dateValue.trim().split('-')
-            tags[selected + dateValue.trim()] = {field: selected, value: dates[0], range: dates[1], add: data['positive'] ? true : false}
+            tags[selected + dateValue.trim()] = {field: selected, lower: dates[0], upper: dates[1], add: data['positive'] ? true : false}
         } else {
-            tags[selected + inputValue] = {field: selected, value: inputValue, range: inputRange, add: data['positive'] ? true : false}
+            tags[selected + inputValue] = {field: selected, lower: inputValue, upper: this.isRange(selected) ? inputRange : '', add: data['positive'] ? true : false}
         }
-        this.setState({tags: tags, inputRange: '', inputValue: '', selected: ''})
+        this.setState({tags: tags, inputRange: '', inputValue: '', selected: '', dateValue: ''})
+        this.props.onTagsChanged(tags)
     }
 
     
       render() {
         const {fields, selected, tags, inputValue, inputRange, dateValue} = this.state
-        console.log(dateValue)
         const range = this.isRange(selected)
         const date = this.isDate(selected)
         return (
@@ -127,23 +115,23 @@ export default class FilterComponent extends React.Component {
                             dateFormat='DD.MM.YY'
                             value={this.state.dateValue}
                             iconPosition="left"
-                            onChange={(e, data) => (this.setState({dateValue: data.value}))}/>
+                            onChange={(e, data) => (this.setState({dateValue: data.value, inputValue: '', inputRange: ''}))}/>
                         : 
                         range ? 
                         <span>
                         <Input 
                             value={inputValue}
                             placeholder={range ? 'from ...' : 'Value'} 
-                            onChange={(e, data) => (this.setState({inputValue: data.value}))}/>
+                            onChange={(e, data) => (this.setState({inputValue: data.value, dateValue: ''}))}/>
                         
                         <Input placeholder='... to' 
-                                onChange={(e, data) => (this.setState({inputRange: data.value}))}/>
+                                onChange={(e, data) => (this.setState({inputRange: data.value, dateValue: ''}))}/>
                                 </span>
                         :
                         <Input 
                             value={inputValue}
                             placeholder={range ? 'from ...' : 'Value'} 
-                            onChange={(e, data) => (this.setState({inputValue: data.value}))}/>
+                            onChange={(e, data) => (this.setState({inputValue: data.value, inputRange: '', dateValue: ''}))}/>
                         
                             }
                                 
@@ -158,8 +146,8 @@ export default class FilterComponent extends React.Component {
                                     key={key}
                                     labelKey={key}
                                     field={tags[key].field}
-                                    value={tags[key].value}
-                                    range={tags[key].range}
+                                    value={tags[key].lower}
+                                    range={tags[key].upper}
                                     add={tags[key].add}
                                     onClick={this.clickLabel}/>
                             ))}

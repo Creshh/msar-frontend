@@ -12,17 +12,27 @@ import QueryHandler from './common/QueryHandler'
 
 export default class SearchPage extends React.Component {
 
+    //housenumber_34: {field: 'housenumber', value: '34', range: '69', add: false},
+
     constructor(props){
         super(props)
         this.onResultSelected = this.onResultSelected.bind(this)
+        this.onTagsChanged = this.onTagsChanged.bind(this)
         this.state = {images: []}
         if(this.props.location.data){
             this.onResultSelected(this.props.location.data)
         }
     }
 
+    onTagsChanged(tags){
+        QueryHandler.multiple(JSON.stringify(tags))
+            .then(json => {
+                console.log(json)
+                this.setState({images: json})
+            })
+    }
+
     onResultSelected(value) {
-        console.log(value)
         QueryHandler.query(value)
             .then(json => {
                 this.setState({images: json})
@@ -51,7 +61,8 @@ export default class SearchPage extends React.Component {
                         onResultSelected= {this.onResultSelected}
                     />
 
-                    <FilterComponent />
+                    <FilterComponent 
+                        onTagsChanged={this.onTagsChanged}/>
                     <Divider />
                     <Segment basic className='grid-images'>
                         <ImageGridComponent
