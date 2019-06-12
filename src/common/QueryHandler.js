@@ -1,7 +1,7 @@
 
 const SEARCH_SUGGEST = 'api/search/suggest?prefix='
 const SEARCH_QUERY = 'api/search/query?query='
-const SEARCH_MULTIPLE = 'api/search/mutliple?request='
+const SEARCH_MULTIPLE = 'api/search/multiple'
 const ASSETS_UPLOAD = 'api/assets/upload'
 const ASSETS_GET = 'api/assets/get/'
 const ASSETS_REMOVE = 'api/assets/remove/'
@@ -48,8 +48,10 @@ export default class QueryHandler {
     }
 
     static multiple(value){
-        return fetch(SEARCH_MULTIPLE + value)
-            .then(response => {
+        return fetch(SEARCH_MULTIPLE, {
+            method: 'POST',
+            body: value
+          }).then(response => {
                 return response.json()
             })
     }
