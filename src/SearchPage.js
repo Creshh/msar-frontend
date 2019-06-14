@@ -18,31 +18,30 @@ export default class SearchPage extends React.Component {
         super(props)
         this.onResultSelected = this.onResultSelected.bind(this)
         this.onTagsChanged = this.onTagsChanged.bind(this)
-        this.state = {images: []}
-        if(this.props.location.data){
-            this.onResultSelected(this.props.location.data)
-        }
+        this.state = {images: [], query: this.props.location.data, tags: this.props.location.data ? true : false}
     }
 
     onTagsChanged(tags){
-        QueryHandler.multiple(JSON.stringify(tags))
-            .then(json => {
-                console.log(json)
-                this.setState({images: json})
-            })
+        console.log(tags)
+        if(!_.isEmpty(tags)){
+            QueryHandler.multiple(JSON.stringify(tags))
+                .then(json => {
+                    this.setState({images: json})
+                })
+        } else {
+            this.setState({tags: false, images: []})
+        }
     }
 
     onResultSelected(value) {
         QueryHandler.query(value)
             .then(json => {
-                this.setState({images: json})
+                this.setState({images: json, query: value, tags: true})
             })
     }
 
     render() {
-        const images = this.state.images
-
-        console.log(this.props.location.data)
+        const {images, query, tags} = this.state
 
         return (
 
@@ -50,19 +49,23 @@ export default class SearchPage extends React.Component {
                 <Segment vertical className='segmentSearch'>
                     <MenuComponent activeItem='search'/>
 
-                    <SearchComponent
-                        defaultValue= {this.props.location.data}
-                        search={{
-                            size: 'small',
-                            className: 'secondarySearch',
-                            category: true,
-                            input: { fluid: true}
-                        }}
-                        onResultSelected= {this.onResultSelected}
-                    />
-
-                    <FilterComponent 
-                        onTagsChanged={this.onTagsChanged}/>
+                    {tags ? 
+                        <FilterComponent 
+                            defaultValue = {query}
+                            onTagsChanged = {this.onTagsChanged}/>
+                    :
+                        <SearchComponent
+                            // defaultValue= {this.props.location.data}
+                            search={{
+                                size: 'small',
+                                className: 'secondarySearch',
+                                category: true,
+                                input: { fluid: true}
+                            }}
+                            onResultSelected= {this.onResultSelected}
+                        />
+                    }
+                  
                     <Divider />
                     <Segment basic className='grid-images'>
                         <ImageGridComponent

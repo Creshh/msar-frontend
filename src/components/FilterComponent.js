@@ -20,31 +20,44 @@ const example = {housenumber34: {field: 'housenumber', lower: '34', upper: '69',
 export default class FilterComponent extends React.Component {
     constructor(props) {
         super(props)
+        
         this.state = {
-            results: [],
             fields: [],
             selected: '',
             inputRange: '',
             inputValue: '',
             dateValue: '',
-            tags: example,
+            tags: {},
         }
         this.handleFieldChanged = this.handleFieldChanged.bind(this)
         this.isRange = this.isRange.bind(this)
         this.isDate = this.isDate.bind(this)
         this.clickLabel = this.clickLabel.bind(this)
         this.addTag = this.addTag.bind(this)
+        this.clearFilters = this.clearFilters.bind(this)
     }
 
     componentDidMount(){
+        const {tags} = this.state
         QueryHandler.getFields().then(fields => (
             this.setState({fields: fields})
         ))
+
+        if(this.props.defaultValue){
+            tags[this.props.defaultValue] = {field: 'query', lower: this.props.defaultValue, upper: '', add: true}
+        }
+        this.setState({tags: tags})
+        this.props.onTagsChanged(tags)
     }
 
     handleFieldChanged(e, data){
         // TODO: check if value is in fields list
         this.setState({selected: data.value})
+    }
+
+    clearFilters(e){
+        this.setState({tags : {}})
+        this.props.onTagsChanged({})
     }
 
     isRange(fieldName){
@@ -139,7 +152,7 @@ export default class FilterComponent extends React.Component {
 
                         <div className='tagList'>
                             <Popup content='Clear all filters' trigger={
-                                <Button circular icon='trash' />
+                                <Button circular icon='trash' onClick={this.clearFilters}/>
                             } />
                             {Object.keys(tags).map(key => (
                                 <LabelComponent
