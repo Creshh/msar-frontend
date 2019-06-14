@@ -95,7 +95,6 @@ export default class QueryHandler {
           }).then(response => {
               return response.json()
           }).then(json => {
-            // console.log(json)
             return {success: true, reference: json.id}
           }).catch(err => {
             return {success: false, msg: err, reference: -1}
@@ -120,7 +119,6 @@ export default class QueryHandler {
             }
         })
         .catch(err => {
-            console.log(err)
             return {success: false, msg: err}
         });
     }
@@ -143,7 +141,6 @@ export default class QueryHandler {
             }
         })
         .catch(err => {
-            console.log(err)
             return {success: false, msg: err}
         });
     }
