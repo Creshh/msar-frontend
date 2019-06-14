@@ -26,17 +26,14 @@ export default class ImageGridComponent extends React.Component {
 
     showImage(reference){
         this.setState({openImage: true, reference: reference})
-        console.log('show ' + reference)
     }
 
     showMeta(reference){
         const panes = []
         QueryHandler.getDocuments(reference)
             .then(docs => {
-                console.log(docs)
                 for(let [key, list] of Object.entries(docs)) {
                     for (let doc of list) {
-                        console.log(doc)
                         panes.push({menuItem: key + ' from ' + doc.source, render: () => <ReactJson src={doc} enableClipboard={false} displayObjectSize={false} displayDataTypes={false} theme={theme}/>})
                     }
                 }
@@ -59,10 +56,7 @@ export default class ImageGridComponent extends React.Component {
 
     onFilesAdded(e){
         const {uploadRef} = this.state
-        console.log(uploadRef)
         const files = e.target.files;
-        console.log(files)
-
         
         this.setState({success: false, msg: ''})
         

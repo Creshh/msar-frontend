@@ -50,7 +50,6 @@ export default class LandingPage extends React.Component {
                                     input: { fluid: true, size: 'big' }
                                 }}
                                 onResultSelected={(result) => {
-                                    console.log(result)
                                     this.props.history.push({
                                         pathname: '/search',
                                         data: result

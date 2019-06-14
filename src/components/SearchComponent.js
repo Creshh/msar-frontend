@@ -20,7 +20,6 @@ export default class SearchComponent extends React.Component {
     handleResultSelected(e, { result }){
         QueryHandler.getSuggestion(result.title).then(json => {
             this.setState({ value: result.title, results: json})
-            // this.props.onResultSelected(result.title, Object.keys(json)[0])
             this.props.onResultSelected(result.title)
         })
     }

@@ -22,7 +22,6 @@ export default class SearchPage extends React.Component {
     }
 
     onTagsChanged(tags){
-        console.log(tags)
         if(!_.isEmpty(tags)){
             QueryHandler.multiple(JSON.stringify(tags))
                 .then(json => {

@@ -38,7 +38,6 @@ export default class UploadComponent extends React.Component {
 
     onFilesAdded(e){
         const files = e.target.files;
-        console.log('onfilesadded')
         this.setState({success: false, msg: ''})
 
         QueryHandler.addType(files[0])
