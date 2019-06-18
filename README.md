@@ -1,1 +1,4 @@
-see https://www.robinwieruch.de/minimal-react-webpack-babel-setup/
+### MSAR
+
+- Frontend for Metadata Search and Retrieval Application.
+- Based on React and SemanticUI
