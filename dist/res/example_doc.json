@@ -1,0 +1,11 @@
+{
+    "reference": "D:\\test_img_src\\1.jpg",
+    "country": "Netherlands",
+    "housenumber": "1",
+    "city": "Augustineborough",
+    "street": "Boyle Isle",
+    "latitude": -81.066693,
+    "source": "faker",
+    "type": "location",
+    "longitude": -33.811325
+}

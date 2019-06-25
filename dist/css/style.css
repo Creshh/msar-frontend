@@ -15,6 +15,11 @@
   border-width: 0px !important;
 }
 
+.docContainer {
+  margin-left: 1em !important;
+  margin-right: 1em !important;
+}
+
 .segmentLanding {
   min-height: 550px;
   flex-grow: 1;
@@ -39,6 +44,11 @@
 }
 
 .segmentSearch {
+  flex-basis: 550px;
+  flex-grow: 1;
+}
+
+.segmentDoc{
   flex-basis: 550px;
   flex-grow: 1;
 }

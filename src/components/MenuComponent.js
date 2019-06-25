@@ -30,8 +30,17 @@ export default class MenuComponent extends React.Component {
                     </Menu.Item>
                     <Menu.Item
                         as={Link} 
-                        to='/search' 
+                        to='/doc' 
                         position='right' 
+                        name='doc'
+                        active={activeItem === 'doc'}
+                        onClick={this.handleItemClick}>
+                            <Icon name='help' />
+                            Doc
+                    </Menu.Item>
+                    <Menu.Item
+                        as={Link} 
+                        to='/search' 
                         name='search'
                         active={activeItem === 'search'}
                         onClick={this.handleItemClick}>

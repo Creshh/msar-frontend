@@ -1,0 +1,78 @@
+{
+	"$id": "https://tu-chemnitz.de/tomkr.meta.location",
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "location",
+	"description": "Location data in address and/or coordinate format",
+	"type": "object",
+	"properties": {
+		"id": {
+			"description": "Automatically generated id",
+			"type": "string"
+		},
+		"reference": {
+			"description": "Absolute path to the referred asset (image, video, etc.)",
+			"type": "string"
+		},
+		"type": {
+			"description": "Type of the included metadata values",
+			"type": "string"
+		},
+		"source": {
+			"description": "Source of the metadata values; e.g. framework name and version",
+			"type": "string"
+		},
+		"raw": {
+			"description": "Free text field for storing raw and additional data",
+			"type": "string"
+		},
+		"latitude": {
+			"type": "number",
+			"searchType": "range"
+		},
+		"longitude": {
+			"type": "number",
+			"searchType": "range"
+		},
+		"country": {
+			"suggest": true,
+			"type": "string",
+			"searchType": "exact"
+		},
+		"city": {
+			"suggest": true,
+			"type": "string",
+			"searchType": "exact"
+		},
+		"street": {
+			"suggest": true,
+			"type": "string",
+			"searchType": "exact"
+		},
+		"housenumber": {
+			"type": "string",
+			"searchType": "exact"
+		}
+	},
+	"required": [
+		"reference",
+		"type",
+		"source"
+	],
+	"anyOf": [
+		{
+			"required": [
+				"latitude",
+				"longitude"
+			]
+		},
+		{
+			"required": [
+				"country",
+				"city",
+				"street",
+				"number"
+			]
+		}
+	],
+	"additionalProperties": false
+}

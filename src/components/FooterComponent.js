@@ -19,7 +19,7 @@ export default class FooterComponent extends React.Component {
                         <Grid.Column>
                         <Header inverted as='h4' content='Content' />
                         <List link inverted>
-                            <List.Item as='a'>Citation</List.Item>
+                            <List.Item as={Link} to='/doc'>Documentation</List.Item>
                             <List.Item as={Link} to='/search'>Search</List.Item>
                             <List.Item as={Link} to='/upload'>Upload</List.Item>
                             <List.Item as={Link} to='/schemes'>Schemes</List.Item>
