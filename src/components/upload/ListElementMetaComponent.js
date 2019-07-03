@@ -22,7 +22,7 @@ export default class ListElementMetaComponent extends React.Component {
                             (values.finished ? 
                                 (values.success ? 
                                     <Icon name='check' /> :
-                                    <span className='problemText'>{values.msg}</span>) :
+                                    <span className='problemText'><pre>{values.msg}</pre></span>) :
                                 (status === UploadStates.PENDING ?
                                     <Loader active inline size='mini'/> :
                                     <Icon name='delete' onClick={() => this.props.removeFile(metaFileName)}/>)) :

@@ -100,7 +100,7 @@ export default class UploadComponent extends React.Component {
     onMetaJsonParsed(metaFileName, meta, fileObj){
         const {files} = this.state
 
-        let reference = meta.reference.substring(meta.reference.replace(/\\/g, '/').lastIndexOf('/')+1).split('.')[0]; 
+        let reference = meta.reference.substring(meta.reference.replace(/\\/g, '/').lastIndexOf('/')+1); 
 
         let upload = true
         let msg
@@ -128,7 +128,7 @@ export default class UploadComponent extends React.Component {
         let files = {}
         for(const file of fileList){
             if(file['type'].split('/')[0] === 'image'){
-                files[file.name.split('.')[0]] = {
+                files[file.name] = {
                     'fileType': file.name.split('.')[1],
                     'fileObj': file,
                     'success': false,
