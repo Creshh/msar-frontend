@@ -2,3 +2,6 @@ node_modules
 dist/*.js
 /node/node.exe
 /target
+/.settings
+/.project
+/.classpath

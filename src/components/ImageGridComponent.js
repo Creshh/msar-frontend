@@ -20,7 +20,6 @@ export default class ImageGridComponent extends React.Component {
         this.onCopy = this.onCopy.bind(this)
         this.onFilesAdded = this.onFilesAdded.bind(this)
         this.clickUpload = this.clickUpload.bind(this)
-
         this.fileInputRef = React.createRef()
     }
 
@@ -53,6 +52,8 @@ export default class ImageGridComponent extends React.Component {
         this.setState({uploadRef: reference})
         this.fileInputRef.current.click()
     }
+
+  
 
     onFilesAdded(e){
         const {uploadRef} = this.state
@@ -136,7 +137,7 @@ export default class ImageGridComponent extends React.Component {
                                     } content='Download Image' /> {/*upload*/}
                                     
                                     <Popup className='imageLabelPopup' inverted position='top center' size='tiny' trigger={
-                                        <CopyToClipboard text={'http://localhost:8080/' + QueryHandler.getAsset(obj.reference, false)} onCopy={() => this.onCopy()}>            
+                                        <CopyToClipboard text={QueryHandler.getAsset(obj.reference, false)} onCopy={() => this.onCopy()}>            
                                             <Button className='imageButton' color='black' icon='linkify' />
                                         </CopyToClipboard>
                                     } content={copyText} onClose={() => this.setState({copyText: COPY_TEXT})}/> {/*share alternate*/}

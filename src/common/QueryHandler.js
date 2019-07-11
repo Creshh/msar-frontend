@@ -15,7 +15,7 @@ const FIELDS_GET = 'api/type/getFields'
 export default class QueryHandler {
 
     static getAsset(reference, thumb, download=false){
-        return ASSETS_GET + reference + (thumb ? '?thumb=true' : '?thumb=false') + (download ? '&dl=true' : '&dl=false')
+        return 'http://' + window.location.host + '/' + ASSETS_GET + reference + (thumb ? '?thumb=true' : '?thumb=false') + (download ? '&dl=true' : '&dl=false')
     }
 
     static removeAsset(reference){
@@ -29,6 +29,15 @@ export default class QueryHandler {
         let a = document.createElement('a')
         a.href = ASSETS_GET + reference + '?dl=true'
         a.setAttribute('download', '')
+        a.click()
+        a.remove()
+    }
+
+    static downloadJson(jsonObject){
+        const data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(jsonObject));
+        let a = document.createElement('a')
+        a.href = 'data:' + data
+        a.setAttribute('download', 'referenceList.json')
         a.click()
         a.remove()
     }

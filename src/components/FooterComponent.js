@@ -31,7 +31,7 @@ export default class FooterComponent extends React.Component {
                             <List.Item>Metadata Search and Retrieval Application</List.Item>
                             <List.Item as='a'>Professur Media Computing</List.Item>
                             <List.Item as='a'>Technische Universität Chemnitz</List.Item>
-                            <List.Item>2017</List.Item>
+                            <List.Item>2019</List.Item>
                         </List>
                         </Grid.Column>
                     </Grid.Row>
