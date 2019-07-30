@@ -18,7 +18,7 @@ export default class ListComponent extends React.Component {
                     <ListElementAssetComponent
                         key={fileName}
                         status={status}
-                        assetFileName={fileName + '.' + files[fileName].fileType}
+                        assetFileName={fileName}
                         assetSuccess={files[fileName].success}
                         metaFileMap={files[fileName].metaFiles}
                         total={files[fileName].total}
