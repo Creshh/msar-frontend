@@ -101,7 +101,7 @@ export default class DocPage extends React.Component {
                             <List.Item>includes real data combined with fields for classification and assignment to images</List.Item>
                             <List.Item>header fields are reference (path to corresponding image), type (schema type) and source (source framework etc., cannot be filtered yet, so all sources are searched)</List.Item>
                             <List.Item>other fields are described by the selected schema and include the real data</List.Item>
-                            <List.Item icon='exclamation' content='important: while uploading, the metadata files are matched with the image files using their name'/>
+                            <List.Item icon='exclamation' content='important: while uploading, the metadata files are matched with the image files using the reference inside the metadata file. It should contain the exact name of the image to which it belongs!'/>
                             <List.Item icon='exclamation' content='metadata files must be names like [image_filename]_[documenttype].json' />
                         </List>
                         
